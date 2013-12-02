@@ -44,7 +44,7 @@ if ($oldversion && !$current_version) {
     elgg_set_plugin_setting('poll', $pointssettings->poll, 'elggx_userpoints');
     elgg_set_plugin_setting('pollvote', $pointssettings->pollvote, 'elggx_userpoints');
     elgg_set_plugin_setting('phototag', $pointssettings->phototag, 'elggx_userpoints');
-    elgg_set_plugin_setting('group_topic_post', $pointssettings->group_topic_post, 'elggx_userpoints');
+    elgg_set_plugin_setting('discussion_reply', $pointssettings->group_topic_post, 'elggx_userpoints');
     elgg_set_plugin_setting('login', $pointssettings->login, 'elggx_userpoints');
     elgg_set_plugin_setting('delete', $pointssettings->delete, 'elggx_userpoints');
     elgg_set_plugin_setting('invite', $pointssettings->invite, 'elggx_userpoints');
@@ -53,8 +53,15 @@ if ($oldversion && !$current_version) {
     elgg_set_plugin_setting('expire_invite', $pointssettings->expire_invite, 'elggx_userpoints');
 
     // Set new version
-    elgg_set_plugin_setting('version', '1.9.6', 'elggx_userpoints');
-} else if ($current_version != '1.9.6') {
+    elgg_set_plugin_setting('version', '1.9.7', 'elggx_userpoints');
+} else if ($current_version < '1.9.7') {
+    $pointssettings = elgg_get_plugin_from_id('elggx_userpoints');
+    elgg_set_plugin_setting('discussion_reply', $pointssettings->group_topic_post, 'elggx_userpoints');
     // Set new version
-    elgg_set_plugin_setting('version', '1.9.6', 'elggx_userpoints');
+    elgg_set_plugin_setting('version', '1.9.7', 'elggx_userpoints');
+}
+$current_version = elgg_get_plugin_setting('version', 'elggx_userpoints');
+if ($current_version != '1.9.7') {
+    // Set new version
+    elgg_set_plugin_setting('version', '1.9.7', 'elggx_userpoints');
 }

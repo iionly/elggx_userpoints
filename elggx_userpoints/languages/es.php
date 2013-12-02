@@ -110,7 +110,8 @@ return array(
 'userpoints_standard:phototag' => 'Puntos por etiquetar una Foto:',
 'userpoints_standard:riverpost' => 'Puntos por publicar en Actualizaciones:',
 'userpoints_standard:thewire' => 'Puntos por publicar en Actualizaciones:',
-'userpoints_standard:group_topic_post' => 'Puntos por publicar un tema en un Grupo:',
+'userpoints_standard:groupforumtopic' => 'Puntos por agregar un tema de discusión en grupo:',
+'userpoints_standard:discussion_reply' => 'Puntos por responder en un tema de discusión en grupo:',
 'userpoints_standard:invite' => 'Puntos por invitar un Amigo:',
 'userpoints_standard:expire_invite' => 'Expirar Puntos por invitaciones pendientes / Permitir reenviar invitación luego:',
 'userpoints_standard:require_registration' => 'Requerir registro para Amigos invitados?',
@@ -123,5 +124,5 @@ return array(
 'userpoints_standard:1day' => '1 Día',
 'userpoints_standard:1week' => '1 Semana',
 'userpoints_standard:1month' => '1 Mes',
-'userpoints_standard:delete' => 'Borrar Puntos si el contenido por el que fueron otorgados se suprimió?',
+'userpoints_standard:delete' => 'Borrar Puntos si el contenido por el que fueron otorgados se suprimió?'
 );

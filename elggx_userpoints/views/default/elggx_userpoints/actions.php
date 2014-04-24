@@ -50,7 +50,7 @@ $token = generate_action_token($ts);
 
     <tr>
         <td><label><?php echo elgg_echo('userpoints_standard:comment'); ?></label></td>
-        <td><?php echo elgg_view('input/text', array('name' => "params[generic_comment]", 'value' => $plugin->generic_comment)); ?></td>
+        <td><?php echo elgg_view('input/text', array('name' => "params[comment]", 'value' => $plugin->comment)); ?></td>
     </tr>
 
     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
@@ -92,6 +92,13 @@ $token = generate_action_token($ts);
     <tr>
         <td><label><?php echo elgg_echo('userpoints_standard:profile'); ?></label></td>
         <td><?php echo elgg_view('input/text', array('name' => "params[profileupdate]", 'value' => $plugin->profileupdate)); ?></td>
+    </tr>
+
+    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+    <tr>
+        <td><label><?php echo elgg_echo('userpoints_standard:profileicon'); ?></label></td>
+        <td><?php echo elgg_view('input/text', array('name' => "params[profileicon]", 'value' => $plugin->profileicon)); ?></td>
     </tr>
 
     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>

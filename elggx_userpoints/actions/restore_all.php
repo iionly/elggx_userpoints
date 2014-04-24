@@ -10,7 +10,7 @@ foreach($all_users as $user) {
 
     $users_points = userpoints_get($user->guid);
     $users_approved_points = $users_points['approved'];
-    $user->userpoints_points = $users_approved_points;
+    $user->userpoints_points = (int)$users_approved_points;
 }
 
 system_message(elgg_echo("elggx_userpoints:restore_all:success"));

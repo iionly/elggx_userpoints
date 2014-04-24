@@ -97,6 +97,7 @@ return array(
 'userpoints_standard:verify_email' => 'Validar direcciones de e-mail de Amigos?',
 'userpoints_standard:group' => 'Puntos por comenzar un Grupo:',
 'userpoints_standard:profile' => 'Puntos por editar el Perfil:',
+'userpoints_standard:profileicon' => 'Puntos para subir una imagen de Perfil:',
 'userpoints_standard:messageboard' => 'Puntos por publicar un mensaje en un Amigo:',
 'userpoints_standard:page_top' => 'Puntos por agregar una página de Wiki:',
 'userpoints_standard:likes' => 'Puntos por poner "Me gusta" a algún contenido:',

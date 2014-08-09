@@ -4,7 +4,7 @@ $user_guid = (int)get_input('user_guid');
 
 // Delete all the userpoint objects for the selected user
 // or for all users if user_guid = 0
-$entities = elgg_get_entities(array('type' => 'object', 'subtype' => 'userpoint', 'owner_guid' => $user_guid));
+$entities = elgg_get_entities(array('type' => 'object', 'subtype' => 'userpoint', 'owner_guid' => $user_guid, 'limit' => false));
 foreach ($entities as $entity) {
     $entity->delete();
 }

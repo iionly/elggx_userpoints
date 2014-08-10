@@ -1,6 +1,6 @@
 <?php
 
-if ($vars['size'] == 'large') {
+if (elgg_get_context() == 'profile' && $vars['size'] == 'large') {
     if (elgg_get_plugin_setting('profile_display', 'elggx_userpoints')) {
 ?>
 

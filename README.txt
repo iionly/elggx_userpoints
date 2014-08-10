@@ -1,6 +1,6 @@
 Elggx Userpoints plugin for Elgg 1.9
-Latest Version: 1.9.8
-Released: 2014-04-24
+Latest Version: 1.9.9
+Released: 2014-08-10
 Contact: iionly@gmx.de
 License: GNU General Public License version 2
 Copyright: (c) iionly (for Elgg 1.8 version), Billy Gunn
@@ -19,6 +19,20 @@ Installation:
 
 
 Changelog:
+
+1.9.9 (iionly):
+
+- Updated version 1.8.9 for Elgg 1.9.
+
+
+1.8.9 (iionly):
+
+- Fix (thanks to atima): pagination on "Details" tab in admin section to work correctly when viewing the userpoints history of a specific user,
+- Fix (thanks to atima): resetting userpoints of a user now removes all userpoints object of this user,
+- Fix: resetting userpoints for all site users works now,
+- Improvement: Usage of an ElggBatch on deleting (resetting) userpoint objects to avoid memory issues,
+- Fix: current number of userpoints of a user displayed on profile page under the large profile icon is really only displayed on profile pages and not anywhere else where the large profile icon might be used (restriction to "profile" context).
+
 
 1.9.8 (iionly):
 

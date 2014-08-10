@@ -29,7 +29,9 @@ $entities = elgg_get_entities_from_metadata(array(
           ));
 
 $base_url = elgg_get_site_url() . "admin/administer_utilities/elggx_userpoints?tab=detail";
-if ($user_guid) $base_url .= "&user_guid=$user_guid";
+if ($user_guid) {
+    $base_url .= "&user_guid=$user_guid";
+}
 $nav = elgg_view('navigation/pagination',array(
     'base_url' => $base_url,
     'offset' => $offset,

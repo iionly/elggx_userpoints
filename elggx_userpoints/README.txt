@@ -1,6 +1,6 @@
 Elggx Userpoints plugin for Elgg 1.9
-Latest Version: 1.9.9
-Released: 2014-08-10
+Latest Version: 1.9.10
+Released: 2014-0-13
 Contact: iionly@gmx.de
 License: GNU General Public License version 2
 Copyright: (c) iionly (for Elgg 1.8 version), Billy Gunn
@@ -19,6 +19,18 @@ Installation:
 
 
 Changelog:
+
+1.9.10 (iionly):
+
+- Updated version 1.8.10 for Elgg 1.9.
+
+
+1.8.10 (iionly):
+
+- Fix in create/delete object and create annotation plugin hook callback functions to NOT rely on a (in some cases not available) logged-in user entity to assign userpoints to but using the owner_guid of the object or annotation respectively instead.
+
+Attention: this has been kind of a critical / serious issue hidden in the code even before I took over the plugin an ported it to Elgg 1.8. It might finally explain the loss of userpoints in some cases (or rather the fact that the userpoints were just not shown anymore) as this issue might have been interfering with processes of other plugins which affected the userpoints plugin in return. I noticed it only for myself on Elgg 1.9 with the Elggchat plugin chat session cleanup cronjob not working (while there wasn't the same issue on Elgg 1.8). But depending on what plugins you have installed on your site there might have been other conflicts.
+
 
 1.9.9 (iionly):
 

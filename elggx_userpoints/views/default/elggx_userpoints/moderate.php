@@ -3,68 +3,79 @@
 $offset = (int)get_input('offset');
 $limit = 10;
 
-$ts = time ();
-$token = generate_action_token ( $ts );
-
-$count    = elgg_get_entities_from_metadata(array(
-          'metadata_name' => 'meta_moderate',
-          'metadata_value' => 'pending',
-          'type' => 'object',
-          'subtype' => 'userpoint',
-          'limit' => false,
-          'offset' => 0,
-          'count' => true
-          ));
+$count = elgg_get_entities_from_metadata(array(
+	'metadata_name' => 'meta_moderate',
+	'metadata_value' => 'pending',
+	'type' => 'object',
+	'subtype' => 'userpoint',
+	'limit' => false,
+	'offset' => 0,
+	'count' => true
+));
 $entities = elgg_get_entities_from_metadata(array(
-          'metadata_name' => 'meta_moderate',
-          'metadata_value' => 'pending',
-          'type' => 'object',
-          'subtype' => 'userpoint',
-          'limit' => $limit,
-          'offset' => $offset
-          ));
+	'metadata_name' => 'meta_moderate',
+	'metadata_value' => 'pending',
+	'type' => 'object',
+	'subtype' => 'userpoint',
+	'limit' => $limit,
+	'offset' => $offset
+));
 
 $nav = elgg_view('navigation/pagination',array(
-    'base_url' => elgg_get_site_url() . "admin/administer_utilities/elggx_userpoints?tab=moderate",
-    'offset' => $offset,
-    'count' => $count,
-    'limit' => $limit
+	'base_url' => elgg_get_site_url() . "admin/administer_utilities/elggx_userpoints?tab=moderate",
+	'offset' => $offset,
+	'count' => $count,
+	'limit' => $limit
 ));
 
 $html = $nav;
 
 if ($count=='0') {
-    $html .= "<br>" . elgg_echo('elggx_userpoints:moderate_empty');
-}
+	$html .= "<br>" . elgg_echo('elggx_userpoints:moderate_empty');
+} else {
 
-foreach ($entities as $entity) {
+	$html .= "<ul class=\"elgg-list-distinct\">";
 
-    $owner = $entity->getOwnerEntity();
-    $friendlytime = elgg_view_friendly_time($entity->time_created);
-    $points = $entity->meta_points;
-    $v = ($points == 1) ? elgg_echo('elggx_userpoints:lowersingular') : elgg_echo('elggx_userpoints:lowerplural');
+	foreach ($entities as $entity) {
 
-    $icon = elgg_view_entity_icon($owner, 'small');
+		$html .= "<li class=\"elgg-item\">";
 
-    // Initialize link to the description on the Userpoint
-    $link = $entity->description;
+		$owner = $entity->getOwnerEntity();
+		$friendlytime = elgg_view_friendly_time($entity->time_created);
+		$owner_link = elgg_view('output/url', array(
+			'href' => "poll/owner/$owner->username",
+			'text' => $owner->name,
+			'is_trusted' => true,
+		));
+		$author_text = elgg_echo('byline', array($owner_link));
 
-    // If we have the parent ID and its a valid object build a link to it.
-    if (isset($entity->meta_guid)) {
-        $parent = get_entity($entity->meta_guid);
-        if (is_object($parent)) {
-            $item = $parent->title ? $parent->title : $parent->description;
-            $link = "<a href=\"{$parent->getURL()}\">$item</a>";
-        }
-    }
+		$points = $entity->meta_points;
+		$v = ($points == 1) ? elgg_echo('elggx_userpoints:lowersingular') : elgg_echo('elggx_userpoints:lowerplural');
 
-    $info = "<p><a href=\"{$entity->getURL()}\">{$points} $v</a> " . elgg_echo('elggx_userpoints:awarded_for') . " {$entity->meta_type}: $link</p>";
-    $info .= "<p class=\"owner_timestamp\"><a href=\"{$owner->getURL()}\">{$owner->name}</a> {$friendlytime} (";
+		$icon = elgg_view_entity_icon($owner, 'small');
 
-    $info .= "<a href=\"" . elgg_get_site_url() . "action/elggx_userpoints/moderate?guid={$entity->guid}&status=approved&__elgg_token=$token&__elgg_ts=$ts\">".elgg_echo('elggx_userpoints:approved')."</a> | ";
-    $info .= "<a href=\"" . elgg_get_site_url() . "action/elggx_userpoints/moderate?guid={$entity->guid}&status=denied&__elgg_token=$token&__elgg_ts=$ts\">".elgg_echo('elggx_userpoints:denied')."</a>)</p>";
+		// Initialize link to the description on the Userpoint
+		$link = $entity->description;
 
-    $html .= elgg_view('page/components/image_block', array('image' => $icon, 'body' => $info));
+		// If we have the parent ID and its a valid object build a link to it.
+		if (isset($entity->meta_guid)) {
+			$parent = get_entity($entity->meta_guid);
+			if (is_object($parent)) {
+				$item = $parent->title ? $parent->title : $parent->description;
+				$link = "<a href=\"{$parent->getURL()}\">$item</a>";
+			}
+		}
+
+		$info = elgg_view("output/longtext", array('value' => "{$author_text} {$friendlytime}", 'class' => 'elgg-subtext'));
+		$info .= "<p><a href=\"{$entity->getURL()}\">{$points} $v</a> " . elgg_echo('elggx_userpoints:awarded_for') . " {$entity->meta_type}: $link</p>";
+
+		$info .= "(<a href=\"" . elgg_add_action_tokens_to_url(elgg_get_site_url() . "action/elggx_userpoints/moderate?guid={$entity->guid}&status=approved") . "\">".elgg_echo('elggx_userpoints:approved')."</a> | ";
+		$info .= "<a href=\"" . elgg_add_action_tokens_to_url(elgg_get_site_url() . "action/elggx_userpoints/moderate?guid={$entity->guid}&status=denied") . "\">".elgg_echo('elggx_userpoints:denied')."</a>)";
+
+		$html .= elgg_view('page/components/image_block', array('image' => $icon, 'body' => $info));
+		$html .= "</li>";
+	}
+	$html .= "</ul>";
 }
 
 echo $html;

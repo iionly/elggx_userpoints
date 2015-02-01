@@ -28,7 +28,7 @@ foreach ($entities as $entity) {
 
 	$html .= "<tr><td><a href=\"" . elgg_get_site_url() . "admin/administer_utilities/elggx_userpoints?tab=detail&user_guid={$entity->guid}\">{$entity->username}</a></td>";
 	$html .= "<td><a href=\"" . elgg_get_site_url() . "admin/administer_utilities/elggx_userpoints?tab=detail&user_guid={$entity->guid}\">{$entity->userpoints_points}</a></td>";
-	$html .= "<td>" . elgg_view("output/confirmlink", array(
+	$html .= "<td>" . elgg_view("output/url", array(
 							'href' => elgg_get_site_url() . "action/elggx_userpoints/reset?user_guid={$entity->guid}",
 							'text' => elgg_echo('elggx_userpoints:reset'),
 							'is_action' => true,
@@ -49,7 +49,7 @@ $action_url = elgg_get_site_url() . "action/elggx_userpoints/restore";
 $html .= elgg_view('input/form', array('body' => $form_body, 'action' => $action_url, 'class' => 'mbl'));
 
 $html .= "<div class='mbm'>" . elgg_echo('elggx_userpoints:restore_all_help') . "</div>";
-$html .= elgg_view("output/confirmlink", array(
+$html .= elgg_view("output/url", array(
 		'href' => elgg_get_site_url() . "action/elggx_userpoints/restore_all",
 		'text' => elgg_echo('elggx_userpoints:restore_all'),
 		'is_action' => true,

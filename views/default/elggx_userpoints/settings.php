@@ -7,7 +7,7 @@
 $plugin = elgg_get_plugin_from_id('elggx_userpoints');
 
 echo "<br><b>";
-echo elgg_view("output/confirmlink", array(
+echo elgg_view("output/url", array(
 	'href' => elgg_get_site_url() . "action/elggx_userpoints/reset?user_guid=0",
 	'text' => elgg_echo('elggx_userpoints:reset:all'),
 	'is_action' => true,

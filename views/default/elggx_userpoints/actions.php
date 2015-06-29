@@ -44,7 +44,7 @@ $plugin = elgg_get_plugin_from_id('elggx_userpoints');
 
 	<tr>
 		<td><label><?php echo elgg_echo('userpoints_standard:comment'); ?></label></td>
-		<td><?php echo elgg_view('input/text', array('name' => "params[comment]", 'value' => $plugin->generic_comment)); ?></td>
+		<td><?php echo elgg_view('input/text', array('name' => "params[comment]", 'value' => $plugin->comment)); ?></td>
 	</tr>
 
 	<tr><td>&nbsp;</td><td>&nbsp;</td></tr>

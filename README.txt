@@ -1,6 +1,6 @@
 Elggx Userpoints plugin for Elgg 1.9
-Latest Version: 1.9.11
-Released: 2014-09-28
+Latest Version: 1.9.13
+Released: 2015-06-24
 Contact: iionly@gmx.de
 License: GNU General Public License version 2
 Copyright: (c) iionly (for Elgg 1.8 version), Billy Gunn
@@ -19,6 +19,17 @@ Installation:
 
 
 Changelog:
+
+1.9.13 (iionly):
+
+- No longer call parent constructor in Userpoint class with guid as parameter (this has been deprecated in Elgg 1.9),
+- Correctly display userpoints previously set to be provided for making a comment in corresponding input field on Userpoints Point settings tab.
+
+
+1.9.12 (iionly):
+
+Version skipped.
+
 
 1.9.11 (iionly):
 

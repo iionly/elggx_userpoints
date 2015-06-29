@@ -17,49 +17,50 @@
 
 class Userpoint extends ElggObject {
 
-    /**
-     * A single-word arbitrary string that defines what
-     * kind of object this is
-     *
-     * @var string
-     * @access private
-     */
-    private $subtype = "userpoint";
+	/**
+	 * A single-word arbitrary string that defines what
+	 * kind of object this is
+	 *
+	 * @var string
+	 * @access private
+	 */
+	private $subtype = "userpoint";
 
-    /**
-     * Set up the subtype.
-     *
-     * @see engine/classes/ElggObject#initializeAttributes()
-     */
-    protected function initializeAttributes() {
+	/**
+	 * Set up the subtype.
+	 *
+	 * @see engine/classes/ElggObject#initializeAttributes()
+	 */
+	protected function initializeAttributes() {
 
-        parent::initializeAttributes();
+		parent::initializeAttributes();
 
-        $this->attributes['subtype'] = "userpoint";
-    }
+		$this->attributes['subtype'] = "userpoint";
+	}
 
+	/**
+	 * Class constructor
+	 *
+	 * @param integer  $guid The object guid
+	 * @param integer  $user_guid The users guid
+	 * @param string   $description The description (reason) for these points
+	 */
+	public function __construct($guid=null, $user_guid=null, $description=null) {
+		if ($guid && !is_object($guid)) {
+			$guid = get_entity_as_row($guid);
+		}
+		parent::__construct($guid);
 
-    /**
-     * Class constructor
-     *
-     * @param integer  $guid The object guid
-     * @param integer  $user_guid The users guid
-     * @param string   $description The description (reason) for these points
-     */
-    public function __construct($guid=null, $user_guid=null, $description=null) {
+		if ($guid) {
+			return true;
+		}
 
-        parent::__construct($guid);
+		if (!$user = get_entity($user_guid)) {
+			return false;
+		}
 
-        if ($guid) {
-            return true;
-        }
-
-        if (!$user = get_entity($user_guid)) {
-            return false;
-        }
-
-        $this->attributes['owner_guid'] = $user_guid;
-        $this->attributes['container_guid'] = $user_guid;
-        $this->attributes['description'] = $description;
-    }
+		$this->attributes['owner_guid'] = $user_guid;
+		$this->attributes['container_guid'] = $user_guid;
+		$this->attributes['description'] = $description;
+	}
 }

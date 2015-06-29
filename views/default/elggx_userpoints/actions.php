@@ -44,7 +44,7 @@ $plugin = elgg_get_plugin_from_id('elggx_userpoints');
 
 	<tr>
 		<td><label><?php echo elgg_echo('userpoints_standard:comment'); ?></label></td>
-		<td><?php echo elgg_view('input/text', array('name' => "params[comment]", 'value' => $plugin->generic_comment)); ?></td>
+		<td><?php echo elgg_view('input/text', array('name' => "params[comment]", 'value' => $plugin->comment)); ?></td>
 	</tr>
 
 	<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
@@ -196,7 +196,7 @@ $plugin = elgg_get_plugin_from_id('elggx_userpoints');
 
 	<tr>
 		<td><label><?php echo elgg_echo('userpoints_standard:recommendations:approve'); ?></label></td>
-		<td><?php echo elgg_view('input/dropdown', array(
+		<td><?php echo elgg_view('input/select', array(
 							'name' => 'params[recommendations_approve]',
 							'options_values' => array('1' => elgg_echo('elggx_userpoints:settings:yes'), '0' => elgg_echo('elggx_userpoints:settings:no')),
 							'value' => $plugin->delete
@@ -251,7 +251,7 @@ $plugin = elgg_get_plugin_from_id('elggx_userpoints');
 
 	<tr>
 		<td><label><?php echo elgg_echo('userpoints_standard:verify_email'); ?></label></td>
-		<td><?php echo elgg_view('input/dropdown', array(
+		<td><?php echo elgg_view('input/select', array(
 							'name' => 'params[verify_email]',
 							'options_values' => array('1' => elgg_echo('elggx_userpoints:settings:yes'), '0' => elgg_echo('elggx_userpoints:settings:no')),
 							'value' => $plugin->verify_email
@@ -264,7 +264,7 @@ $plugin = elgg_get_plugin_from_id('elggx_userpoints');
 
 	<tr>
 		<td><label><?php echo elgg_echo('userpoints_standard:require_registration'); ?></label></td>
-		<td><?php echo elgg_view('input/dropdown', array(
+		<td><?php echo elgg_view('input/select', array(
 							'name' => 'params[require_registration]',
 							'options_values' => array('1' => elgg_echo('elggx_userpoints:settings:yes'), '0' => elgg_echo('elggx_userpoints:settings:no')),
 							'value' => $plugin->require_registration
@@ -277,7 +277,7 @@ $plugin = elgg_get_plugin_from_id('elggx_userpoints');
 
 	<tr>
 		<td><label><?php echo elgg_echo('userpoints_standard:expire_invite'); ?></label></td>
-		<td><?php echo elgg_view('input/dropdown', array(
+		<td><?php echo elgg_view('input/select', array(
 						'name' => 'params[expire_invite]',
 						'options_values' => array(
 							'0'        => elgg_echo('elggx_userpoints:settings:never'),
@@ -300,7 +300,7 @@ $plugin = elgg_get_plugin_from_id('elggx_userpoints');
 
 	<tr>
 		<td><label><?php echo elgg_echo('userpoints_standard:delete'); ?></label></td>
-		<td><?php echo elgg_view('input/dropdown', array(
+		<td><?php echo elgg_view('input/select', array(
 							'name' => 'params[delete]',
 							'options_values' => array('1' => elgg_echo('elggx_userpoints:settings:yes'), '0' => elgg_echo('elggx_userpoints:settings:no')),
 							'value' => $plugin->delete

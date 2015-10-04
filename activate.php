@@ -11,11 +11,15 @@ if (get_subtype_id('object', 'userpoint')) {
 	add_subtype('object', 'userpoint', 'Userpoint');
 }
 
-
 // Upgrade settings
+
+// show hidden entities (in this case disabled plugins)
+$old_access = access_get_show_hidden_status();
+access_show_hidden_entities(true);
+
 $oldversion = elgg_get_plugin_setting('version', 'userpoints');
 $current_version = elgg_get_plugin_setting('version', 'elggx_userpoints');
-$new_version = '1.10.13';
+$new_version = '1.10.14';
 
 // Check if we need to run an upgrade
 if ($oldversion && !$current_version) {
@@ -52,22 +56,39 @@ if ($oldversion && !$current_version) {
 	elgg_set_plugin_setting('require_registration', $pointssettings->require_registration, 'elggx_userpoints');
 	elgg_set_plugin_setting('expire_invite', $pointssettings->expire_invite, 'elggx_userpoints');
 
+	elgg_unset_all_plugin_settings('userpoints');
+	elgg_unset_all_plugin_settings('userpoints_standard');
+
 	// Set new version
 	elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
 } else if (version_compare($current_version, '1.9.7', '<')) {
 	$pointssettings = elgg_get_plugin_from_id('elggx_userpoints');
 	elgg_set_plugin_setting('discussion_reply', $pointssettings->group_topic_post, 'elggx_userpoints');
 	elgg_set_plugin_setting('comment', $pointssettings->generic_comment, 'elggx_userpoints');
+
+	elgg_unset_plugin_setting('group_topic_post', 'elggx_userpoints');
+	elgg_unset_plugin_setting('generic_comment', 'elggx_userpoints');
+
 	// Set new version
 	elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
 } else if (version_compare($current_version, '1.9.8', '<')) {
 	$pointssettings = elgg_get_plugin_from_id('elggx_userpoints');
 	elgg_set_plugin_setting('comment', $pointssettings->generic_comment, 'elggx_userpoints');
+
+	elgg_unset_plugin_setting('generic_comment', 'elggx_userpoints');
+
 	// Set new version
 	elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
 }
 $current_version = elgg_get_plugin_setting('version', 'elggx_userpoints');
 if (version_compare($current_version, $new_version, '!=')) {
+
+	// Clean-up previously not dealt with
+	elgg_unset_plugin_setting('group_topic_post', 'elggx_userpoints');
+	elgg_unset_plugin_setting('generic_comment', 'elggx_userpoints');
+
 	// Set new version
 	elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
 }
+
+access_show_hidden_entities($old_access);

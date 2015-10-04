@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.10.14
+-------
+
+- composer.json added.
+
 1.10.13
 -------
 

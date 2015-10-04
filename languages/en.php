@@ -103,7 +103,7 @@ return array(
 	'userpoints_standard:create_album' => 'Points for creating a photo album:',
 	'userpoints_standard:upload_photo' => 'Points for uploading a photo:',
 	'userpoints_standard:comment' => 'Points for posting a comment:',
-	'userpoints_standard:polls' => 'Polls Plugin',
+	'userpoints_standard:polls' => 'Poll Plugin',
 	'userpoints_standard:poll' => 'Points for posting a poll:',
 	'userpoints_standard:pollvote' => 'Points for voting on a poll:',
 	'userpoints_standard:login' => 'Points for logging in:',

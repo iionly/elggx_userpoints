@@ -103,7 +103,7 @@ return array(
 	'userpoints_standard:create_album' => 'Punkte für das Hinzufügen eines Bilderalbums:',
 	'userpoints_standard:upload_photo' => 'Punkte für das Hochladen eines Bildes:',
 	'userpoints_standard:comment' => 'Punkte für das Verfassen eines Kommentars:',
-	'userpoints_standard:polls' => 'Polls-Plugin',
+	'userpoints_standard:polls' => 'Poll-Plugin',
 	'userpoints_standard:poll' => 'Punkte für das Starten einer Rundfrage:',
 	'userpoints_standard:pollvote' => 'Punkte für die Stimmabgabe in einer Rundfrage:',
 	'userpoints_standard:login' => 'Punkte für das Anmelden:',

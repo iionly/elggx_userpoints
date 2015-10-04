@@ -71,8 +71,8 @@ $plugin = elgg_get_plugin_from_id('elggx_userpoints');
 	<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
 
 	<tr>
-		<td><label><?php echo elgg_echo('userpoints_standard:groupforumtopic'); ?></label></td>
-		<td><?php echo elgg_view('input/text', array('name' => "params[groupforumtopic]", 'value' => $plugin->groupforumtopic)); ?></td>
+		<td><label><?php echo elgg_echo('userpoints_standard:discussion'); ?></label></td>
+		<td><?php echo elgg_view('input/text', array('name' => "params[discussion]", 'value' => $plugin->discussion)); ?></td>
 	</tr>
 
 	<tr><td>&nbsp;</td><td>&nbsp;</td></tr>

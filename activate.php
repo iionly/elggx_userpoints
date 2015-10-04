@@ -19,7 +19,7 @@ access_show_hidden_entities(true);
 
 $oldversion = elgg_get_plugin_setting('version', 'userpoints');
 $current_version = elgg_get_plugin_setting('version', 'elggx_userpoints');
-$new_version = '1.10.14';
+$new_version = '2.0.0';
 
 // Check if we need to run an upgrade
 if ($oldversion && !$current_version) {
@@ -73,8 +73,22 @@ if ($oldversion && !$current_version) {
 	elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
 } else if (version_compare($current_version, '1.9.8', '<')) {
 	$pointssettings = elgg_get_plugin_from_id('elggx_userpoints');
+	elgg_set_plugin_setting('discussion', $pointssettings->groupforumtopic, 'elggx_userpoints');
 	elgg_set_plugin_setting('comment', $pointssettings->generic_comment, 'elggx_userpoints');
 
+	elgg_unset_plugin_setting('groupforumtopic', 'elggx_userpoints');
+	elgg_unset_plugin_setting('generic_comment', 'elggx_userpoints');
+
+	// Set new version
+	elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
+} else if (version_compare($current_version, '2.0.0', '<')) {
+	$pointssettings = elgg_get_plugin_from_id('elggx_userpoints');
+	elgg_set_plugin_setting('discussion', $pointssettings->groupforumtopic, 'elggx_userpoints');
+
+	elgg_unset_plugin_setting('groupforumtopic', 'elggx_userpoints');
+
+	// Clean-up previously not dealt with
+	elgg_unset_plugin_setting('group_topic_post', 'elggx_userpoints');
 	elgg_unset_plugin_setting('generic_comment', 'elggx_userpoints');
 
 	// Set new version
@@ -82,11 +96,6 @@ if ($oldversion && !$current_version) {
 }
 $current_version = elgg_get_plugin_setting('version', 'elggx_userpoints');
 if (version_compare($current_version, $new_version, '!=')) {
-
-	// Clean-up previously not dealt with
-	elgg_unset_plugin_setting('group_topic_post', 'elggx_userpoints');
-	elgg_unset_plugin_setting('generic_comment', 'elggx_userpoints');
-
 	// Set new version
 	elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
 }

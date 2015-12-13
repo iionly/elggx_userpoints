@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.0.1
+-----
+
+- Fixed: correctly substract userpoints on deletion of group content of a group member by the group admin who isn't a site admin.
+
 2.0.0
 -----
 

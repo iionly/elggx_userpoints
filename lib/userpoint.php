@@ -204,6 +204,10 @@ function userpoints_delete($user_guid, $guid) {
 		return(false);
 	}
 
+	$access = elgg_set_ignore_access(true);
+	$access_status = access_get_show_hidden_status();
+	access_show_hidden_entities(true);
+
 	$points = 0;
 
 	$entities = elgg_get_entities_from_metadata(array('metadata_name' => 'meta_guid', 'metadata_value' => $guid, 'type' => 'object', 'subtype' => 'userpoint', 'owner_guid' => $user_guid, 'limit' => false));
@@ -216,6 +220,9 @@ function userpoints_delete($user_guid, $guid) {
 
 	// Decrement the users total points
 	userpoints_update_user($user_guid, -$points);
+
+	access_show_hidden_entities($access_status);
+	elgg_set_ignore_access($access);
 }
 
 /**

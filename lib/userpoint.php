@@ -677,3 +677,96 @@ function elggx_userpoints_validEmail($email) {
 	}
 	return $isValid;
 }
+
+/**
+ * Appends "elggx_userpoints" tab to the navigation on the members page of bundled Members plugin
+ *
+ * @param string $hook        "members:config"
+ * @param string $type        "tabs"
+ * @param array  $returnvalue array that build navigation tabs
+ * @param array  $params      unused
+ * @return array
+ */
+function elggx_userpoints_members_nav($hook, $type, $returnvalue, $params) {
+	$returnvalue['elggx_userpoints'] = array(
+		'title' => elgg_echo('sort:elggx_userpoints'),
+		'url' => "members/elggx_userpoints",
+	);
+	return $returnvalue;
+}
+
+/**
+ * Returns content for the "elggx_userpoints" tab page of the members page of  bundled Members plugin
+ *
+ * @param string      $hook        "members:list"
+ * @param string      $type        "elggx_userpoints"
+ * @param string|null $returnvalue list content (null if not set)
+ * @param array       $params      array with key "options"
+ * @return string
+ */
+function elggx_userpoints_members_list($hook, $type, $returnvalue, $params) {
+	if ($returnvalue !== null) {
+		return;
+	}
+
+	$limit = (int) max(get_input('limit', elgg_get_config('default_limit')), 0);
+	$offset = (int) max(get_input('offset', 0), 0);
+
+	$options_count = array('type' => 'user', 'limit' => false, 'count' => true, 'order_by_metadata' =>  array('name' => 'userpoints_points', 'direction' => DESC, 'as' => integer));
+	$options_count['metadata_name_value_pairs'] = array(array('name' => 'userpoints_points', 'value' => 0,  'operand' => '>'));
+	$count = elgg_get_entities_from_metadata($options_count);
+	$options = $params['options'];
+	$options['limit'] = $limit;
+	$options['offset'] = $offset;
+	$options['type'] = 'user';
+	$options['order_by_metadata'] = array('name' => 'userpoints_points', 'direction' => DESC, 'as' => integer);
+	$options['metadata_name_value_pairs'] = array(array('name' => 'userpoints_points', 'value' => 0,  'operand' => '>'));
+	$entities = elgg_get_entities_from_metadata($options);
+
+	$html = '<div><ul class="elgg-list elgg-list entity">';
+
+	foreach ($entities as $entity) {
+		$icon = elgg_view_entity_icon($entity, 'tiny');
+		$link_params = array(
+			'href' => $entity->getUrl(),
+			'text' => $entity->name,
+		);
+
+		// Simple XFN, see http://gmpg.org/xfn/
+		if (elgg_get_logged_in_user_guid() == $entity->guid) {
+			$link_params['rel'] = 'me';
+		} elseif (check_entity_relationship(elgg_get_logged_in_user_guid(), 'friend', $entity->guid)) {
+			$link_params['rel'] = 'friend';
+		}
+		$title = elgg_view('output/url', $link_params);
+
+		if ($entity->isBanned()) {
+			$banned = elgg_echo('banned');
+			$params = array(
+				'entity' => $entity,
+				'title' => $title,
+			);
+		} else {
+			$branding = (abs($entity->userpoints_points) > 1) ? elgg_echo('elggx_userpoints:lowerplural') : elgg_echo('elggx_userpoints:lowersingular');
+			$params = array(
+				'entity' => $entity,
+				'title' => $title,
+				'content' => "<b>{$entity->userpoints_points} $branding</b>",
+			);
+		}
+
+		$list_body = elgg_view('user/elements/summary', $params);
+		$html .= "<li class elgg-item elgg-item-user>" . elgg_view_image_block($icon, $list_body) . "</li>";
+	}
+
+	$html .= '</ul></div>';
+
+	$html .= elgg_view('navigation/pagination',array(
+		'base_url' => elgg_get_site_url() . "members/elggx_userpoints",
+		'offset' => $offset,
+		'count' => $count,
+		'limit' => $limit
+	));
+
+	return $html;
+}

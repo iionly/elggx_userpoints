@@ -33,6 +33,9 @@ function userpoints_init() {
 	elgg_register_event_handler('profileupdate','user','elggx_userpoints_profile');
 	elgg_register_event_handler('profileiconupdate','user','elggx_userpoints_profileiconupdate');
 
+	elgg_register_plugin_hook_handler('members:list', 'elggx_userpoints', "elggx_userpoints_members_list");
+	elgg_register_plugin_hook_handler('members:config', 'tabs', "elggx_userpoints_members_nav");
+
 	elgg_register_admin_menu_item('administer', 'elggx_userpoints', 'administer_utilities');
 
 	// Register actions

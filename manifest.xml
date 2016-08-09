@@ -15,6 +15,10 @@
 	</requires>
 	<suggests>
 		<type>plugin</type>
+		<name>members</name>
+	</suggests>
+	<suggests>
+		<type>plugin</type>
 		<name>widget_manager</name>
 	</suggests>
 	<suggests>

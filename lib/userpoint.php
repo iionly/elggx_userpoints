@@ -235,14 +235,16 @@ function userpoints_delete($user_guid, $guid) {
 function userpoints_delete_by_userpoint($guid) {
 
 	$entity = get_entity($guid);
-	$owner_guid = $entity->owner_guid;
-	$points = $entity->meta_points;
+	if ($entity && elgg_instanceof($entity, 'object', 'userpoint')) {
+		$owner_guid = $entity->owner_guid;
+		$points = $entity->meta_points;
 
-	// Delete the userpoint entity
-	$entity->delete();
+		// Delete the userpoint entity
+		$entity->delete();
 
-	// Decrement the users total points
-	userpoints_update_user($owner_guid, -$points);
+		// Decrement the users total points
+		userpoints_update_user($owner_guid, -$points);
+	}
 }
 
 /**
@@ -272,8 +274,8 @@ function userpoints_update_user($guid, $points) {
 }
 
 /**
- * Deletes userpoints by the guid of the userpoint entity.
- * This method is called when administratively deleting points
+ * Awards pending userpoints by the guid of the userpoint entity.
+ * This method is called when administratively moderating points
  * or when points expire.
  *
  * @param  integer  $guid The guid of the userpoint entity
@@ -281,12 +283,13 @@ function userpoints_update_user($guid, $points) {
 function userpoints_moderate($guid, $status) {
 
 	$entity = get_entity($guid);
+	if ($entity && elgg_instanceof($entity, 'object', 'userpoint')) {
+		$entity->meta_moderate = $status;
 
-	$entity->meta_moderate = $status;
-
-	// increment the users total points if approved
-	if ($status == 'approved') {
-		userpoints_update_user($entity->owner_guid, $entity->meta_points);
+		// increment the users total points if approved
+		if ($status == 'approved') {
+			userpoints_update_user($entity->owner_guid, $entity->meta_points);
+		}
 	}
 }
 

@@ -68,7 +68,7 @@ return array(
 'elggx_userpoints:reset:success' => 'Correctamente borrados %s',
 'elggx_userpoints:restore:confirm' => 'Seguro de restaurar los Puntos del Usuario %s?',
 'elggx_userpoints:restore:success' => 'Correctamente restaurados los Puntos del Usuario %s.',
-'elggx_userpoints:restore:error' => '%s no es un nombre de Usuario válido.',
+'elggx_userpoints:error:invalid_username' => '%s no es un nombre de Usuario válido.',
 'elggx_userpoints:restore_all:confirm' => 'Seguro de restaurar los Puntos de todos los Usuarios?',
 'elggx_userpoints:restore_all:success' => 'Correctamente restaurados los Puntos de todos los Usuarios.',
 'elggx_userpoints:reset:all' => 'Resetear todos los Puntos',

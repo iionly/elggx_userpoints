@@ -1,19 +1,14 @@
 <?php
-
 /**
  * Save Userpoints settings
- *
  */
 
 // Params array (text boxes and drop downs)
-$params = get_input('params');
-$result = false;
+$params = (array) get_input('params');
 foreach ($params as $k => $v) {
 	if (!elgg_set_plugin_setting($k, $v, 'elggx_userpoints')) {
-		register_error(elgg_echo('plugins:settings:save:fail', array('elggx_userpoints')));
-		forward(REFERER);
+		return elgg_error_response(elgg_echo('plugins:settings:save:fail', [elggx_userpoints]));
 	}
 }
 
-system_message(elgg_echo('elggx_userpoints:settings:save:ok'));
-forward(REFERER);
+return elgg_ok_response('', elgg_echo('elggx_userpoints:settings:save:ok'), REFERER);

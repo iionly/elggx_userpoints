@@ -5,10 +5,10 @@
  */
 
 // Register the Userpoint class for the object/userpoint subtype
-if (get_subtype_id('object', 'userpoint')) {
-	update_subtype('object', 'userpoint', 'Userpoint');
+if (get_subtype_id('object', Userpoint::SUBTYPE)) {
+	update_subtype('object', Userpoint::SUBTYPE, 'Userpoint');
 } else {
-	add_subtype('object', 'userpoint', 'Userpoint');
+	add_subtype('object', Userpoint::SUBTYPE, 'Userpoint');
 }
 
 // Upgrade settings

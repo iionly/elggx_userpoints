@@ -3,4 +3,4 @@
  * Deregister the Userpoint class
  */
 
-update_subtype('object', 'userpoint');
+update_subtype('object', Userpoint::SUBTYPE);

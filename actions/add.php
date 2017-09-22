@@ -1,14 +1,18 @@
 <?php
 
-$params = get_input('params');
-$username = get_input($params['username']);
+$params = (array) get_input('params');
+
+$username = elgg_extract('username', $params);
 $user = get_user_by_username($username);
 
-if ($user) {
-	userpoints_add($user->guid, $params['points'], $params['description'], 'admin')
-	system_message(elgg_echo("elggx_userpoints:add:success", array($params['points'], elgg_echo('elggx_userpoints:lowerplural'), $params['username'])));
-
-} else {
-	register_error(elgg_echo("elggx_userpoints:error:invalid_username", array($username)));
+if (!($user instanceof ElggUser)) {
+	return elgg_error_response(elgg_echo('elggx_userpoints:error:invalid_username', [$username]));
 }
-forward(REFERER);
+
+elggx_userpoints_add($user->guid, $params['points'], $params['description'], 'admin');
+
+return elgg_ok_response('', elgg_echo('elggx_userpoints:add:success', [
+	$params['points'],
+	elgg_echo('elggx_userpoints:lowerplural'),
+	$user->getDisplayName(),
+]), REFERER);

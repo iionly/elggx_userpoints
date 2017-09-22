@@ -1,61 +1,100 @@
 <?php
 
-$offset = get_input('offset') ? (int)get_input('offset') : 0;
+$offset = (int) get_input('offset');
 $limit = 10;
 
-$options_count = array('type' => 'user', 'limit' => false, 'count' => true, 'order_by_metadata' =>  array('name' => 'userpoints_points', 'direction' => DESC, 'as' => integer));
-$options_count['metadata_name_value_pairs'] = array(array('name' => 'userpoints_points', 'value' => 0,  'operand' => '>'));
-$count = elgg_get_entities_from_metadata($options_count);
-$options = array('type' => 'user', 'limit' => $limit, 'offset' => $offset, 'order_by_metadata' =>  array('name' => 'userpoints_points', 'direction' => DESC, 'as' => integer));
-$options['metadata_name_value_pairs'] = array(array('name' => 'userpoints_points', 'value' => 0,  'operand' => '>'));
-$entities = elgg_get_entities_from_metadata($options);
-
-$nav = elgg_view('navigation/pagination',array(
-	'base_url' => elgg_get_site_url() . "admin/administer_utilities/elggx_userpoints?tab=list",
+$options = [
+	'type' => 'user',
+	'count' => true,
 	'offset' => $offset,
-	'count' => $count,
-	'limit' => $limit
-));
+	'limit' => $limit,
+	'order_by_metadata' => [
+		'name' => 'userpoints_points',
+		'direction' => 'DESC',
+		'as' => 'integer',
+	],
+	'metadata_name_value_pairs' => [
+		'name' => 'userpoints_points',
+		'value' => 0,
+		'operand' => '>',
+	],
+];
 
-$html = $nav;
+$count = elgg_get_entities_from_metadata($options);
 
-$html .= "<div><br><table><tr><th width=\"50%\"><b>".elgg_echo('elggx_userpoints:user')."</b></th>";
-$html .= "<th width=\"20%\"><b>".elgg_echo('elggx_userpoints:upperplural')."</b></th>";
-$html .= "<th width=\"10%\"><b>".elgg_echo('elggx_userpoints:action')."</b></tr>";
-$html .= "<tr><td colspan=3></td></tr>";
-
-foreach ($entities as $entity) {
-
-	$html .= "<tr><td><a href=\"" . elgg_get_site_url() . "admin/administer_utilities/elggx_userpoints?tab=detail&user_guid={$entity->guid}\">{$entity->username}</a></td>";
-	$html .= "<td><a href=\"" . elgg_get_site_url() . "admin/administer_utilities/elggx_userpoints?tab=detail&user_guid={$entity->guid}\">{$entity->userpoints_points}</a></td>";
-	$html .= "<td>" . elgg_view("output/url", array(
-							'href' => elgg_get_site_url() . "action/elggx_userpoints/reset?user_guid={$entity->guid}",
-							'text' => elgg_echo('elggx_userpoints:reset'),
-							'is_action' => true,
-							'is_trusted' => true,
-							'confirm' => elgg_echo('elggx_userpoints:reset:confirm', array($entity->username))
-						));
-	$html .= "</td></tr>";
-
+if (!empty($count)) {
+	
+	echo elgg_view('navigation/pagination', [
+		'base_url' => elgg_http_add_url_query_elements('admin/administer_utilities/elggx_userpoints', [
+			'tab' => 'list',
+		]),
+		'offset' => $offset,
+		'count' => $count,
+		'limit' => $limit,
+	]);
+	
+	$rows = [];
+	
+	$options['count'] = false;
+	$entities = elgg_get_entities_from_metadata($options);
+	
+	/* @var $entity ElggUser */
+	foreach ($entities as $entity) {
+		$row = [];
+		
+		// name
+		$row[] = elgg_format_element('td', ['width' => '50%'], elgg_view('output/url', [
+			'text' => $entity->getDisplayName(),
+			'href' => elgg_http_add_url_query_elements('admin/administer_utilities/elggx_userpoints', [
+				'tab' =>  'detail',
+				'user_guid' => $entity->guid,
+			])
+		]));
+		// points
+		$row[] = elgg_format_element('td', ['width' => '20%'], elgg_view('output/url', [
+			'text' => (int) $entity->userpoints_points,
+			'href' => elgg_http_add_url_query_elements('admin/administer_utilities/elggx_userpoints', [
+				'tab' =>  'detail',
+				'user_guid' => $entity->guid,
+			])
+		]));
+		// reset
+		$row[] = elgg_format_element('td', ['width' => '10%'], elgg_view('output/url', [
+			'text' => elgg_echo('elggx_userpoints:reset'),
+			'href' => elgg_http_add_url_query_elements('action/elggx_userpoints/reset', [
+				'user_guid' => $entity->guid,
+			]),
+			'confirm' => elgg_echo('elggx_userpoints:reset:confirm', [$entity->getDisplayName()]),
+		]));
+		
+		$rows[] = elgg_format_element('tr', [], implode('', $row));
+	}
+	
+	$header_row = [
+		elgg_format_element('th', ['width' => '50%'], elgg_echo('elggx_userpoints:user')),
+		elgg_format_element('th', ['width' => '20%'], elgg_echo('elggx_userpoints:upperplural')),
+		elgg_format_element('th', ['width' => '10%'], elgg_echo('elggx_userpoints:action')),
+	];
+	$header = elgg_format_element('tr', [], implode('', $header_row));
+	
+	$table_content = elgg_format_element('thead', [], $header);
+	$table_content .= elgg_format_element('tbody', [], implode('', $rows));
+	
+	echo elgg_format_element('table', ['class' => 'elgg-table'], $table_content);
 }
-$html .= "<tr><td colspan=3></td></tr>";
-$html .= "</table></div>";
 
-$html .= "<br><br>";
-$html .=  elgg_echo('elggx_userpoints:restore_help');
-$form_body .= elgg_view('input/text', array('name' => 'username', 'class' => 'mbm'));
-$form_body .= elgg_view('input/submit', array('value' => elgg_echo('elggx_userpoints:restore')));
-$action_url = elgg_get_site_url() . "action/elggx_userpoints/restore";
-$html .= elgg_view('input/form', array('body' => $form_body, 'action' => $action_url, 'class' => 'mbl'));
+echo elgg_view_form('elggx_userpoints/restore');
 
-$html .= "<div class='mbm'>" . elgg_echo('elggx_userpoints:restore_all_help') . "</div>";
-$html .= elgg_view("output/url", array(
-		'href' => elgg_get_site_url() . "action/elggx_userpoints/restore_all",
-		'text' => elgg_echo('elggx_userpoints:restore_all'),
-		'is_action' => true,
-		'is_trusted' => true,
-		'confirm' => elgg_echo('elggx_userpoints:restore_all:confirm'),
-		'class' => 'elgg-button elgg-button-action'
-));
+echo elgg_view('output/longtext', [
+	'value' => elgg_echo('elggx_userpoints:restore_all_help'),
+]);
+echo elgg_view("output/url", [
+	'href' => "action/elggx_userpoints/restore_all",
+	'text' => elgg_echo('elggx_userpoints:restore_all'),
+	'is_action' => true,
+	'is_trusted' => true,
+	'confirm' => elgg_echo('elggx_userpoints:restore_all:confirm'),
+	'class' => 'elgg-button elgg-button-action',
+]);
 
-echo $html;
+

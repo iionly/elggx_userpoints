@@ -1,17 +1,15 @@
-<?php
-/**
- * userpoint CSS
- */
-?>
-
+/************
+Userpoint CSS
+*************/
 .userpoints_profile {
 	font-weight: bold;
 	padding: 3px 0 3px 5px;
 	background: white;
 }
 
-/* ------ userpoints widgets ------  */
-
+/***************** 
+Userpoints widgets
+******************/
 #userpoints_mypoints_widget_container {
 	text-align:left;
 }

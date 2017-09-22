@@ -3,17 +3,18 @@
 $username = get_input('username');
 $user = get_user_by_username($username);
 
-if($user) {
-	$options = array('guid' => $user->guid, 'metadata_name' => 'userpoints_points');
-	elgg_delete_metadata($options);
-
-	$users_points = userpoints_get($user->guid);
-	$users_approved_points = $users_points['approved'];
-	$user->userpoints_points = (int)$users_approved_points;
-
-	system_message(elgg_echo("elggx_userpoints:restore:success", array($user->username)));
-} else {
-	register_error(elgg_echo("elggx_userpoints:error:invalid_username", array($username)));
+if (!($user instanceof ElggUser)) {
+	return elgg_error_response(elgg_echo('elggx_userpoints:error:invalid_username', [$username]));
 }
 
-forward(REFERER);
+elgg_delete_metadata([
+	'guid' => $user->guid,
+	'metadata_name' => 'userpoints_points',
+	'limit' => false,
+]);
+
+$users_points = elggx_userpoints_get($user->guid);
+$users_approved_points = $users_points['approved'];
+$user->userpoints_points = (int) $users_approved_points;
+
+return elgg_ok_response('', elgg_echo('elggx_userpoints:restore:success', [$user->getDisplayName()]), REFERER);

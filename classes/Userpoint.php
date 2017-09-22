@@ -22,45 +22,32 @@ class Userpoint extends ElggObject {
 	 * kind of object this is
 	 *
 	 * @var string
-	 * @access private
 	 */
-	private $subtype = "userpoint";
+	const SUBTYPE = 'userpoint';
 
 	/**
-	 * Set up the subtype.
-	 *
-	 * @see engine/classes/ElggObject#initializeAttributes()
+	 * {@inheritDoc}
+	 * @see ElggObject::initializeAttributes()
 	 */
 	protected function initializeAttributes() {
 
 		parent::initializeAttributes();
 
-		$this->attributes['subtype'] = "userpoint";
+		$this->attributes['subtype'] = self::SUBTYPE;
+		$this->attributes['access_id'] = ACCESS_PUBLIC;
 	}
 
 	/**
-	 * Class constructor
-	 *
-	 * @param integer  $guid The object guid
-	 * @param integer  $user_guid The users guid
-	 * @param string   $description The description (reason) for these points
+	 * {@inheritDoc}
+	 * @see ElggEntity::canDelete()
 	 */
-	public function __construct($guid=null, $user_guid=null, $description=null) {
-		if ($guid && !is_object($guid)) {
-			$guid = get_entity_as_row($guid);
+	public function canDelete($user_guid = 0) {
+		
+		$user_guid = (int) $user_guid;
+		if (empty($user_guid)) {
+			$user_guid = elgg_get_logged_in_user_guid();
 		}
-		parent::__construct($guid);
-
-		if ($guid) {
-			return true;
-		}
-
-		if (!$user = get_entity($user_guid)) {
-			return false;
-		}
-
-		$this->attributes['owner_guid'] = $user_guid;
-		$this->attributes['container_guid'] = $user_guid;
-		$this->attributes['description'] = $description;
+		
+		return elgg_is_admin_user($user_guid);
 	}
 }

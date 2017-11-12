@@ -16,6 +16,7 @@ $content = elgg_view_field([
 	'name' => 'params[friend]',
 	'value' => $plugin->friend,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -24,6 +25,7 @@ $content .= elgg_view_field([
 	'name' => 'params[blog]',
 	'value' => $plugin->blog,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -32,6 +34,7 @@ $content .= elgg_view_field([
 	'name' => 'params[file]',
 	'value' => $plugin->file,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -40,14 +43,16 @@ $content .= elgg_view_field([
 	'name' => 'params[bookmarks]',
 	'value' => $plugin->bookmarks,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
 	'#type' => 'number',
-	'#label' => elgg_echo('userpoints_standard:riverpost'),
-	'name' => 'params[riverpost]',
-	'value' => $plugin->riverpost,
+	'#label' => elgg_echo('userpoints_standard:comment'),
+	'name' => 'params[comment]',
+	'value' => $plugin->comment,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -56,6 +61,7 @@ $content .= elgg_view_field([
 	'name' => 'params[thewire]',
 	'value' => $plugin->thewire,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -64,6 +70,7 @@ $content .= elgg_view_field([
 	'name' => 'params[group]',
 	'value' => $plugin->group,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -72,6 +79,7 @@ $content .= elgg_view_field([
 	'name' => 'params[discussion]',
 	'value' => $plugin->discussion,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -80,22 +88,7 @@ $content .= elgg_view_field([
 	'name' => 'params[discussion_reply]',
 	'value' => $plugin->discussion_reply,
 	'min' => 0,
-]);
-
-$content .= elgg_view_field([
-	'#type' => 'number',
-	'#label' => elgg_echo('userpoints_standard:profile'),
-	'name' => 'params[profileupdate]',
-	'value' => $plugin->profileupdate,
-	'min' => 0,
-]);
-
-$content .= elgg_view_field([
-	'#type' => 'number',
-	'#label' => elgg_echo('userpoints_standard:profileicon'),
-	'name' => 'params[profileicon]',
-	'value' => $plugin->profileicon,
-	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -104,6 +97,7 @@ $content .= elgg_view_field([
 	'name' => 'params[messageboard]',
 	'value' => $plugin->messageboard,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -112,6 +106,7 @@ $content .= elgg_view_field([
 	'name' => 'params[likes]',
 	'value' => $plugin->likes,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -120,6 +115,7 @@ $content .= elgg_view_field([
 	'name' => 'params[page_top]',
 	'value' => $plugin->page_top,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 echo elgg_view_module('inline', $title, $content);

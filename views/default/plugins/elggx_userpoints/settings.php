@@ -68,7 +68,6 @@ echo elgg_view_field([
 echo elgg_view_field([
 	'#type' => 'select',
 	'#label' => elgg_echo('elggx_userpoints:settings:delete'),
-	'#help' => elgg_echo('elggx_userpoints:settings:delete:note'),
 	'name' => 'params[delete]',
 	'options_values' => [
 		'1' => elgg_echo('option:yes'),

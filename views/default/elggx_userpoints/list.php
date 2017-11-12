@@ -44,7 +44,7 @@ if (!empty($count)) {
 		
 		// name
 		$row[] = elgg_format_element('td', ['width' => '50%'], elgg_view('output/url', [
-			'text' => $entity->getDisplayName(),
+			'text' => $entity->username,
 			'href' => elgg_http_add_url_query_elements('admin/administer_utilities/elggx_userpoints', [
 				'tab' =>  'detail',
 				'user_guid' => $entity->guid,
@@ -64,7 +64,7 @@ if (!empty($count)) {
 			'href' => elgg_http_add_url_query_elements('action/elggx_userpoints/reset', [
 				'user_guid' => $entity->guid,
 			]),
-			'confirm' => elgg_echo('elggx_userpoints:reset:confirm', [$entity->getDisplayName()]),
+			'confirm' => elgg_echo('elggx_userpoints:reset:confirm', [$entity->username]),
 		]));
 		
 		$rows[] = elgg_format_element('tr', [], implode('', $row));

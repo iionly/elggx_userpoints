@@ -5,7 +5,7 @@ $widget = elgg_extract('entity', $vars);
 
 $limit = (int) $widget->num_display;
 if ($limit < 1) {
-	$limit = 5;
+	$limit = 10;
 }
 
 echo elgg_list_entities_from_metadata([

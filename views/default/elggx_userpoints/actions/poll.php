@@ -20,6 +20,7 @@ $content = elgg_view_field([
 	'name' => 'params[poll]',
 	'value' => $plugin->poll,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -28,6 +29,7 @@ $content .= elgg_view_field([
 	'name' => 'params[vote]',
 	'value' => $plugin->vote,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 echo elgg_view_module('inline', $title, $content);

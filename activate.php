@@ -19,7 +19,7 @@ access_show_hidden_entities(true);
 
 $oldversion = elgg_get_plugin_setting('version', 'userpoints');
 $current_version = elgg_get_plugin_setting('version', 'elggx_userpoints');
-$new_version = '2.0.1';
+$new_version = '2.3.2';
 
 // Check if we need to run an upgrade
 if ($oldversion && !$current_version) {
@@ -42,7 +42,6 @@ if ($oldversion && !$current_version) {
 	elgg_set_plugin_setting('profileupdate', $pointssettings->profileupdate, 'elggx_userpoints');
 	elgg_set_plugin_setting('page_top', $pointssettings->page_top, 'elggx_userpoints');
 	elgg_set_plugin_setting('comment', $pointssettings->generic_comment, 'elggx_userpoints');
-	elgg_set_plugin_setting('riverpost', $pointssettings->riverpost, 'elggx_userpoints');
 	elgg_set_plugin_setting('thewire', $pointssettings->thewire, 'elggx_userpoints');
 	elgg_set_plugin_setting('image', $pointssettings->upload_photo, 'elggx_userpoints');
 	elgg_set_plugin_setting('poll', $pointssettings->poll, 'elggx_userpoints');
@@ -68,6 +67,10 @@ if ($oldversion && !$current_version) {
 
 	elgg_unset_plugin_setting('group_topic_post', 'elggx_userpoints');
 	elgg_unset_plugin_setting('generic_comment', 'elggx_userpoints');
+	elgg_unset_plugin_setting('riverpost', 'elggx_userpoints');
+	elgg_unset_plugin_setting('ad', 'elggx_userpoints');
+	elgg_unset_plugin_setting('recommendation', 'elggx_userpoints');
+	elgg_unset_plugin_setting('recommendations_approve', 'elggx_userpoints');
 
 	// Set new version
 	elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
@@ -78,6 +81,10 @@ if ($oldversion && !$current_version) {
 
 	elgg_unset_plugin_setting('groupforumtopic', 'elggx_userpoints');
 	elgg_unset_plugin_setting('generic_comment', 'elggx_userpoints');
+	elgg_unset_plugin_setting('riverpost', 'elggx_userpoints');
+	elgg_unset_plugin_setting('ad', 'elggx_userpoints');
+	elgg_unset_plugin_setting('recommendation', 'elggx_userpoints');
+	elgg_unset_plugin_setting('recommendations_approve', 'elggx_userpoints');
 
 	// Set new version
 	elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
@@ -90,12 +97,23 @@ if ($oldversion && !$current_version) {
 	// Clean-up previously not dealt with
 	elgg_unset_plugin_setting('group_topic_post', 'elggx_userpoints');
 	elgg_unset_plugin_setting('generic_comment', 'elggx_userpoints');
+	elgg_unset_plugin_setting('riverpost', 'elggx_userpoints');
+	elgg_unset_plugin_setting('ad', 'elggx_userpoints');
+	elgg_unset_plugin_setting('recommendation', 'elggx_userpoints');
+	elgg_unset_plugin_setting('recommendations_approve', 'elggx_userpoints');
 
 	// Set new version
 	elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
 }
+
 $current_version = elgg_get_plugin_setting('version', 'elggx_userpoints');
 if (version_compare($current_version, $new_version, '!=')) {
+	// Clean-up previously not dealt with
+	elgg_unset_plugin_setting('riverpost', 'elggx_userpoints');
+	elgg_unset_plugin_setting('ad', 'elggx_userpoints');
+	elgg_unset_plugin_setting('recommendation', 'elggx_userpoints');
+	elgg_unset_plugin_setting('recommendations_approve', 'elggx_userpoints');
+
 	// Set new version
 	elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
 }

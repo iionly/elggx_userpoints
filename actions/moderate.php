@@ -1,6 +1,6 @@
 <?php
 
-$guid = (int)get_input('guid');
+$guid = (int) get_input('guid');
 $status = get_input('status');
 
 $entity = get_entity($guid);

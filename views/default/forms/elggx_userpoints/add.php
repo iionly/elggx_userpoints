@@ -13,6 +13,7 @@ echo elgg_view_field([
 	'name' => 'params[points]',
 	'required' => true,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 echo elgg_view_field([

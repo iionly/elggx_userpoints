@@ -32,17 +32,15 @@ $content[] = elgg_view('output/url', [
 	'href' => $entity->getURL(),
 ]);
 
-$content[] = elgg_echo('elggx_userpoints:awarded_for');
-
-$content[] = "{$entity->meta_type}:";
+$content[] = elgg_echo('elggx_userpoints:awarded_for') . ':';
 
 $content[] = $entity->description;
 
 if ($entity->meta_guid) {
 	$from = get_entity($entity->meta_guid);
 	if ($from instanceof ElggEntity) {
-		$content[] = elgg_view('output/url', [
-			'text' => $from->getDisplayName() ?: $from->description,
+		$content[] = '<br>' . elgg_view('output/url', [
+			'text' => $from->getDisplayName() ?: elgg_get_excerpt($from->description, 100),
 			'href' => $from->getURL(),
 		]);
 	}

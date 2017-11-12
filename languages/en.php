@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 	'admin:administer_utilities:elggx_userpoints' => 'Elggx Userpoints',
 	'item:object:userpoint' => 'Userpoints',
 	'sort:elggx_userpoints' => 'Userpoints',
@@ -44,8 +44,6 @@ return array(
 	'elggx_userpoints:upperplural' => 'Points',
 	'elggx_userpoints:lowerplural' => 'points',
 	'elggx_userpoints:lowersingular' => 'point',
-	'elggx_userpoints:settings:yes' => 'Yes',
-	'elggx_userpoints:settings:no' => 'No',
 	'elggx_userpoints:settings:moderated' => 'Moderated',
 	'elggx_userpoints:settings:approved' => 'Approved',
 	'elggx_userpoints:settings:save:ok' => 'Successfully saved the Elggx Userpoints plugin settings.',
@@ -53,7 +51,6 @@ return array(
 	'elggx_userpoints:settings:transaction_status_info' => 'Select whether all points should be approved automatically, or moderated requiring admin approval.',
 	'elggx_userpoints:settings:subtract' => 'Allow points to be subtracted? ',
 	'elggx_userpoints:settings:delete' => 'Allow points to be deleted? ',
-	'elggx_userpoints:settings:delete:note' => 'Note: Points awarded for Elgg annotations (like comments) will not be deleted.',
 	'elggx_userpoints:settings:displaymessage' => 'Display a message when points are awarded? ',
 	'elggx_userpoints:settings:never' => 'Never',
 	'elggx_userpoints:settings:1_hour' => '1 Hour',
@@ -80,19 +77,13 @@ return array(
 	'elggx_userpoints:widget:toppoints:info' => 'A widget to display the top point earners.',
 
 	'userpoints_standard:invitesettings' => 'Invite Settings',
-	'userpoints_standard:misc' => 'Miscellaneous',
 	'userpoints_standard:loginsettings' => 'Login Settings',
 	'userpoints_standard:activities' => 'General Activities',
-	'userpoints_standard:classifieds' => 'Classifieds Plugin',
-	'userpoints_standard:add_classified' => 'Add Classified',
 	'userpoints_standard:izap_videos' => 'Izap Videos',
 	'userpoints_standard:add_video' => 'Add Video',
 	'userpoints_standard:tidypics' => 'Tidypics',
 	'userpoints_standard:fivestar' => 'Elggx Fivestar',
 	'userpoints_standard:fivestar_vote' => 'Points for voting / rating:',
-	'userpoints_standard:recommendations' => 'Recommendations',
-	'userpoints_standard:recommendations:points' => 'Points for making a recommendation:',
-	'userpoints_standard:recommendations:approve' => 'Require approval before awarding points:',
 	'userpoints_standard:friend' => 'Points for making another member a friend:',
 	'userpoints_standard:blog' => 'Points for posting a blog entry:',
 	'userpoints_standard:file' => 'Points for uploading a file:',
@@ -100,8 +91,11 @@ return array(
 	'userpoints_standard:invited' => 'Inviting a friend',
 	'userpoints_standard:verify_email' => 'Validate email addresses of invited friends?',
 	'userpoints_standard:group' => 'Points for starting a group:',
+	'userpoints_standard:profile_settings' => 'Points for editing profile information',
 	'userpoints_standard:profile' => 'Points for editing profile:',
+	'userpoints_standard:profileupdate_threshold' => 'Time before awarding points for editing profile again?',
 	'userpoints_standard:profileicon' => 'Points for adding a profile icon:',
+	'userpoints_standard:profileiconupdate_threshold' => 'Time before awarding points for adding a profile icon again?',
 	'userpoints_standard:messageboard' => 'Points for posting to a user\'s message board:',
 	'userpoints_standard:page_top' => 'Points for adding a page:',
 	'userpoints_standard:likes' => 'Points for liking an item:',
@@ -113,7 +107,6 @@ return array(
 	'userpoints_standard:pollvote' => 'Points for voting on a poll:',
 	'userpoints_standard:login' => 'Points for logging in:',
 	'userpoints_standard:phototag' => 'Points for tagging a photo:',
-	'userpoints_standard:riverpost' => 'Points for posting to the river:',
 	'userpoints_standard:thewire' => 'Points for posting to the wire:',
 	'userpoints_standard:discussion' => 'Points for adding a discussion topic:',
 	'userpoints_standard:discussion_reply' => 'Points for replying in a discussion topic:',
@@ -129,5 +122,4 @@ return array(
 	'userpoints_standard:1day' => '1 Day',
 	'userpoints_standard:1week' => '1 Week',
 	'userpoints_standard:1month' => '1 Month',
-	'userpoints_standard:delete' => 'Delete points if the content they were awarded for is deleted?'
-);
+];

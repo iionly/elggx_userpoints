@@ -2,7 +2,7 @@
 
 /* TRADUCCION POR Gonzalo Arroyo de GEARinvent.com */
 
-return array(
+return [
 'admin:administer_utilities:elggx_userpoints' => 'Elggx Userpoints',
 'item:object:userpoint' => 'Puntos del perfil',
 'elggx_userpoints:settings' => 'Parámetros de Plugin',
@@ -13,7 +13,8 @@ return array(
 'elggx_userpoints:reset' => 'Resetear',
 'elggx_userpoints:restore' => 'Restaurar',
 'elggx_userpoints:restore_all' => 'Restaurar todos los Puntos de Usuarios',
-'elggx_userpoints:restore_help' => 'Due to server glitches it can happen sometimes that a user\'s userpoints metadata entry in the database gets corrupted (showing "Array" instead of the number of userpoints on the profile page). If the user\'s userpoints metadata entry is corrupted any further attempts in adding userpoints will fail (resulting in an Internal Server Error 500 even). Restoring the metadata entry is possible by re-calculation of the number of userpoints of this user.<br><b> Please enter here the username of the user account you want to restore the number of userpoints of: </b>',
+'elggx_userpoints:restore_help' => 'Due to server glitches it can happen sometimes that a user\'s userpoints metadata entry in the database gets corrupted (showing "Array" instead of the number of userpoints on the profile page). If the user\'s userpoints metadata entry is corrupted any further attempts in adding userpoints will fail (resulting in an Internal Server Error 500 even). Restoring the metadata entry is possible by re-calculation of the number of userpoints of this user.',
+'elggx_userpoints:restore_help:label' => 'Please enter here the username of the user account you want to restore the number of userpoints of:',
 'elggx_userpoints:restore_all_help' => 'If a lot of user\'s userpoints metadata entries are corrupted you can also select to restore the corresponding metata entries of all users of your site (Warning: this could take a while if you have a large userbase): ',
 'elggx_userpoints:detail' => 'Detalle',
 'elggx_userpoints:awarded_for' => 'otorgado por',
@@ -40,8 +41,6 @@ return array(
 'elggx_userpoints:upperplural' => 'Puntos',
 'elggx_userpoints:lowerplural' => 'puntos',
 'elggx_userpoints:lowersingular' => 'punto',
-'elggx_userpoints:settings:yes' => 'Si',
-'elggx_userpoints:settings:no' => 'No',
 'elggx_userpoints:settings:moderated' => 'Moderado',
 'elggx_userpoints:settings:approved' => 'Aprobado',
 'elggx_userpoints:settings:save:ok' => 'Successfully saved the Elggx Userpoints plugin settings.',
@@ -49,7 +48,6 @@ return array(
 'elggx_userpoints:settings:transaction_status_info' => 'Select whether all points should be approved automatically, or moderated requiring admin approval.',
 'elggx_userpoints:settings:subtract' => 'Permitir restar Puntos? ',
 'elggx_userpoints:settings:delete' => 'Permitir borrar Puntos? ',
-'elggx_userpoints:settings:delete:note' => 'Note: Points awarded for Elgg annotations (like comments) will not be deleted.',
 'elggx_userpoints:settings:displaymessage' => 'Mostrar un mensaje cuando se otorguen los Puntos? ',
 'elggx_userpoints:settings:never' => 'Nunca',
 'elggx_userpoints:settings:1_hour' => '1 Hora',
@@ -76,19 +74,13 @@ return array(
 'elggx_userpoints:widget:toppoints:info' => 'Un widget para mostrar los Puntos otorgados.',
 
 'userpoints_standard:invitesettings' => 'Configuración de Invitaciones',
-'userpoints_standard:misc' => 'Miscelaneo',
 'userpoints_standard:loginsettings' => 'Configuración de Login',
 'userpoints_standard:activities' => 'Actividades Generales',
-'userpoints_standard:classifieds' => 'Plugins Clasificados',
-'userpoints_standard:add_classified' => 'Agregar Clasificado',
 'userpoints_standard:izap_videos' => 'Izap Videos',
 'userpoints_standard:add_video' => 'Agregar Video',
 'userpoints_standard:tidypics' => 'Tidypics',
 'userpoints_standard:fivestar' => 'Elggx Fivestar',
 'userpoints_standard:fivestar_vote' => 'Puntos para votar / ranquear:',
-'userpoints_standard:recommendations' => 'Recomendaciones',
-'userpoints_standard:recommendations:points' => 'Puntos por hacer una recomendación:',
-'userpoints_standard:recommendations:approve' => 'Requerir aprobación:',
 'userpoints_standard:friend' => 'Puntos por hacer un Amigo:',
 'userpoints_standard:blog' => 'Puntos por publicar en Blog:',
 'userpoints_standard:file' => 'Puntos por subir un Archivo:',
@@ -109,7 +101,6 @@ return array(
 'userpoints_standard:pollvote' => 'Puntos por votar en una Encuesta:',
 'userpoints_standard:login' => 'Puntos por ingresar al sitio web:',
 'userpoints_standard:phototag' => 'Puntos por etiquetar una Foto:',
-'userpoints_standard:riverpost' => 'Puntos por publicar en Actualizaciones:',
 'userpoints_standard:thewire' => 'Puntos por publicar en Actualizaciones:',
 'userpoints_standard:discussion' => 'Puntos por agregar un tema de discusión:',
 'userpoints_standard:discussion_reply' => 'Puntos por responder en un tema de discusión:',
@@ -125,5 +116,4 @@ return array(
 'userpoints_standard:1day' => '1 Día',
 'userpoints_standard:1week' => '1 Semana',
 'userpoints_standard:1month' => '1 Mes',
-'userpoints_standard:delete' => 'Borrar Puntos si el contenido por el que fueron otorgados se suprimió?'
-);
+];

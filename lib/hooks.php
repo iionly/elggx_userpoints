@@ -71,49 +71,6 @@ function elggx_userpoints_register() {
 	return;
 }
 
-function elggx_userpoints_recommendations($hook, $action) {
-
-	$approval = (int) elgg_get_plugin_setting('recommendations_approve', 'elggx_userpoints');
-	$points = (int) elgg_get_plugin_setting('recommendation', 'elggx_userpoints');
-
-	if ($action == 'recommendations/new' && !$approval) {
-		$user = get_user(get_input('recommendation_to'));
-		elggx_userpoints_add(elgg_get_logged_in_user_guid(), $points, 'Recommending '.$user->name, 'recommendation');
-		return;
-	}
-
-	if ($action == 'recommendations/approve') {
-
-		$entity_guid = (int) get_input('entity_guid');
-		$entity = get_entity($entity_guid);
-		$user = get_user($entity->recommendation_to);
-
-		$description = elgg_format_element('a', [
-			'href' => $entity->getURL(),
-		], $entity->getDisplayName());
-
-		$access = elgg_set_ignore_access(true);
-
-		elggx_userpoints_add($entity->owner_guid, $points, $description, 'recommendation');
-
-		elgg_set_ignore_access($access);
-
-		return;
-	}
-}
-
-function elggx_userpoints_friend($hook, $action) {
-
-	if ($action !== 'friends/add') {
-		return;
-	}
-	
-	$user = get_user(get_input('friend'));
-	if ($points = elgg_get_plugin_setting('friend', 'elggx_userpoints')) {
-		elggx_userpoints_add(elgg_get_logged_in_user_guid(), $points, 'Making '.$user->name.' a friend');
-	}
-}
-
 /**
  * Returns content for the "elggx_userpoints" tab page of the members page of  bundled Members plugin
  *
@@ -125,7 +82,7 @@ function elggx_userpoints_friend($hook, $action) {
  * @return string
  */
 function elggx_userpoints_members_list($hook, $type, $returnvalue, $params) {
-	
+
 	if ($returnvalue !== null) {
 		return;
 	}
@@ -225,6 +182,7 @@ function elggx_userpoints_members_list($hook, $type, $returnvalue, $params) {
  * @return array
  */
 function elggx_userpoints_members_nav($hook, $type, $returnvalue, $params) {
+
 	$returnvalue['elggx_userpoints'] = [
 		'title' => elgg_echo('sort:elggx_userpoints'),
 		'url' => "members/elggx_userpoints",
@@ -244,12 +202,12 @@ function elggx_userpoints_members_nav($hook, $type, $returnvalue, $params) {
  * @return void|ElggMenuItem[]
  */
 function elggx_userpoints_entity_menu($hook, $type, $returnvalue, $params) {
-	
+
 	$entity = elgg_extract('entity', $params);
 	if (!($entity instanceof Userpoint)) {
 		return;
 	}
-	
+
 	// remove some items
 	$remove_items = [
 		'edit',
@@ -262,7 +220,7 @@ function elggx_userpoints_entity_menu($hook, $type, $returnvalue, $params) {
 		
 		unset($returnvalue[$index]);
 	}
-	
+
 	// add moderation links
 	if (elgg_is_admin_logged_in() && $entity->meta_moderate === 'pending') {
 		$returnvalue[] = ElggMenuItem::factory([
@@ -284,6 +242,6 @@ function elggx_userpoints_entity_menu($hook, $type, $returnvalue, $params) {
 			'priority' => 101,
 		]);
 	}
-	
+
 	return $returnvalue;
 }

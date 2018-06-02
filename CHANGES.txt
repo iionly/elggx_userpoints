@@ -1,6 +1,20 @@
 Changelog
 =========
 
+2.3.2
+-----
+
+- Requires Elgg 2.3 at minimum,
+- Major code rewrite and cleanup (thanks a lot also to Jerôme Bakker from Coldtrick for the help),
+- Userpoints API updated for consistency (this means any plugin using the userpoints API functions like Elggx Badges or Gifts and others need to be updated to continue to work!),
+- Userpoints deletion functionality reworked and expanded (if you enabled to deletion of userpoints option it should work more stable now and it's also capable of deleting userpoints awarded for actions that are connected with Elgg annotations and metadata in addition to Elgg entities as before); this should also prevent people from gaining userpoints by mis-use (e.g. liking/unliking the same content repeatingly),
+- New userpoints action options for profile editing and avatar uploading to set a blocking period before userpoints are awarded again for these action (to prevent mis-use),
+- New tab on members page (bundled Members plugin must be enabled, of course) that list site members sorted by their userpoints,
+- Widget layout (profile page, dashboard and index page) re-worked to match the listing style of Elgg core,
+- Widget edit form now uses number input to set number of items to display,
+- Check for valid input data in processing of admin actions,
+- Droped support for classified and recommendation plugin actions (these plugins seem not being maintained for so long already).
+
 2.0.1
 -----
 

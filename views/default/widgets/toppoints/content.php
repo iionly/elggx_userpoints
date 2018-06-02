@@ -5,7 +5,7 @@ $widget = elgg_extract('entity', $vars);
 
 $limit = (int) $widget->num_display;
 if ($limit < 1) {
-	$limit = 5;
+	$limit = 10;
 }
 
 echo elgg_list_entities_from_metadata([
@@ -21,5 +21,6 @@ echo elgg_list_entities_from_metadata([
 		'value' => 0,
 		'operand' => '>',
 	],
+	'pagination' => false,
 	'item_view' => 'elggx_userpoints/list/user',
 ]);

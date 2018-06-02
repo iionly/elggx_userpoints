@@ -20,6 +20,7 @@ $content = elgg_view_field([
 	'name' => 'params[izap_videos]',
 	'value' => $plugin->izap_videos,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 echo elgg_view_module('inline', $title, $content);

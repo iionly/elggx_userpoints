@@ -1,6 +1,6 @@
 <?php
 
-$tab = get_input('tab', 'list');
+$tab = get_input('tab', 'actions');
 
 echo elgg_view('elggx_userpoints/tabs', [
 	'tab' => $tab,

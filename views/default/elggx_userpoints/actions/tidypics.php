@@ -20,6 +20,7 @@ $content = elgg_view_field([
 	'name' => 'params[album]',
 	'value' => $plugin->album,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -28,6 +29,7 @@ $content .= elgg_view_field([
 	'name' => 'params[image]',
 	'value' => $plugin->image,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -36,6 +38,7 @@ $content .= elgg_view_field([
 	'name' => 'params[phototag]',
 	'value' => $plugin->phototag,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 echo elgg_view_module('inline', $title, $content);

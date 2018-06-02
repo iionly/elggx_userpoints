@@ -9,10 +9,11 @@ echo elgg_view_field([
 
 echo elgg_view_field([
 	'#type' => 'number',
-	'#label' => elgg_echo('elggx_userpoints:upperplural'),
+	'#label' => elgg_echo('elggx_userpoints:add:points'),
 	'name' => 'params[points]',
 	'required' => true,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 echo elgg_view_field([

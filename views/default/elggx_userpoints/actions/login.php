@@ -16,6 +16,7 @@ $content = elgg_view_field([
 	'name' => 'params[login]',
 	'value' => $plugin->login,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([
@@ -40,6 +41,7 @@ $content .= elgg_view_field([
 	'name' => 'params[login_interval]',
 	'value' => $plugin->login_interval,
 	'min' => 0,
+	'step' => 1,
 ]);
 
 echo elgg_view_module('inline', $title, $content);

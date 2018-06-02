@@ -12,7 +12,7 @@
  * when the points should be awarded.
  *
  * @param integer  $guid User Guid
- * @param integer  $points The number of ppoints to add
+ * @param integer  $points The number of points to add
  * @param string   $description Description for these points
  * @param string   $type The entity type that the points are being awarded for
  * @param integer  $guid The entity guid
@@ -43,7 +43,7 @@ function elggx_userpoints_add_pending($user_guid, $points, $description, $type =
  * Add points to a user
  *
  * @param integer  $guid User Guid
- * @param integer  $points The number of ppoints to add
+ * @param integer  $points The number of points to add
  * @param string   $description Description for these points
  * @param string   $type The entity type that the points are being awarded for
  * @param integer  $guid The entity guid
@@ -93,8 +93,8 @@ function elggx_userpoints_add($user_guid, $points, $description, $type = null, $
 	}
 
 	// Display a system message to the user if configured to do so
-	$branding = ($points == 1) ? elgg_echo('elggx_userpoints:lowersingular') : elgg_echo('elggx_userpoints:lowerplural');
 	if (elgg_get_plugin_setting('displaymessage', 'elggx_userpoints') && $type != 'admin' && $user_guid == elgg_get_logged_in_user_guid()) {
+		$branding = ($points == 1) ? elgg_echo('elggx_userpoints:lowersingular') : elgg_echo('elggx_userpoints:lowerplural');
 		$message = elgg_get_plugin_setting('moderate', 'elggx_userpoints') ? 'elggx_userpoints:pending_message' : 'elggx_userpoints:awarded_message';
 		system_message(elgg_echo($message, [$points, $branding]));
 	}
@@ -104,7 +104,7 @@ function elggx_userpoints_add($user_guid, $points, $description, $type = null, $
 
 /**
  * Subtract points from a user. This is just a wrapper around
- * elggx_userpoints_add as we are really just adding negataive x points.
+ * elggx_userpoints_add as we are really just adding negative x points.
  *
  * @param integer  $guid User Guid
  * @param integer  $points The number of points to subtract
@@ -115,6 +115,7 @@ function elggx_userpoints_add($user_guid, $points, $description, $type = null, $
  * @return false|Userpoint return false on failure or Userpoint on success
  */
 function elggx_userpoints_subtract($user_guid, $points, $description, $type = null, $guid = null) {
+
 	$points = (int) $points;
 	if ($points > 0) {
 		$points = -$points;
@@ -169,10 +170,12 @@ function elggx_userpoints_exists($user_guid, $type, $guid) {
 			[
 				'name' => 'meta_type',
 				'value' => $type,
+				'operand' => '=',
 			],
 			[
 				'name' => 'meta_guid',
 				'value' => $guid,
+				'operand' => '=',
 			],
 		],
 	]);
@@ -200,7 +203,7 @@ function elggx_userpoints_get($user_guid) {
 		'limit' => false,
 		'batch' => true,
 	]);
-	
+
 	/* @var $obj Userpoint */
 	foreach ($entities as $obj) {
 		if (isset($obj->meta_moderate)) {
@@ -218,16 +221,95 @@ function elggx_userpoints_get($user_guid) {
 }
 
 /**
- * Deletes a userpoint record based on the meta_guid. This method
+ * Deletes all userpoint record awarded for annotations or metadata based on
+ * the owner, entity_guid and type and description. This method
  * should be called by plugins that want to delete points if the
  * content/object that awarded the points is deleted.
  *
- * @param  integer  $user_guid The user Guid
+ * Deletes a single or all matching userpoint records based on the owner user guid and guid/entity_guid the userpoint record is aligned with.
+ * Optionally, the type and description can be provided to refine the deletion further.
+ * This method should be called by plugins that want to delete points if the
+ * content/object that awarded the points is deleted.
+ *
+ * @param  integer  $user_guid The owner user guid
+ * @param  integer  $meta_guid The guid of the object the userpoint record belongs to,
+ *                  or the entity_guid of the object the annotation or metadata belongs to,
+ *                  or guid_two of the relationship the userpoint record belongs to
+ * @param  string   $type The data type or null; can be either entity subtype, or annotation, or metadata, or relationship
+ * @param  string   $description The userpoint record description string or null; can be either the entity subtype,
+ *                  or annotation name, or metadata name, or a specific description string matching the userpoints record description
+ * @param  integer  $limit The maximum number of userpoints record to delete; either positive int or for no limit either 0 or false
+ * @param  bool     $reverse If true fetch/delete oldest userpoints record first (up to limit)
+ *
+ * @return false|void
+ */
+function elggx_userpoints_delete($user_guid, $meta_guid, $type = null, $description = null, $limit = false, $reverse = false) {
+
+	if (!elgg_get_plugin_setting('delete', 'elggx_userpoints')) {
+		return false;
+	}
+
+	$user = get_user($user_guid);
+	if ($user instanceof ElggUser) {
+	
+		$access = elgg_set_ignore_access(true);
+		$access_status = access_get_show_hidden_status();
+		access_show_hidden_entities(true);
+
+		$points = 0;
+
+		$entities = elgg_get_entities_from_attributes([
+			'type' => 'object',
+			'subtype' => Userpoint::SUBTYPE,
+			'owner_guid' => $user_guid,
+			'attribute_name_value_pairs' => [
+				'name' => 'description',
+				'value' => $description,
+				'operand' => '=',
+				'case_sensitive' => true,
+			],
+			'metadata_name_value_pairs' => [
+				[
+					'name' => 'meta_type',
+					'value' => $type,
+					'operand' => '=',
+				],
+				[
+					'name' => 'meta_guid',
+					'value' => $meta_guid,
+					'operand' => '=',
+				],
+			],
+			'reverse_order_by' => $reverse,
+			'limit' => $limit,
+			'batch' => true,
+			'batch_inc_offset' => false,
+		]);
+		/* @var $entity Userpoint */
+		foreach ($entities as $entity) {
+			$points = $points + $entity->meta_points;
+			$entity->delete();
+		}
+
+		// Decrement the users total points
+		elggx_userpoints_update_user($user_guid, -$points);
+
+		access_show_hidden_entities($access_status);
+		elgg_set_ignore_access($access);
+	}
+}
+
+/**
+ * Deletes userpoint records based on the guid of the entity getting deleted
+ * (=meta_guid of userpoint entities). This method
+ * should be called by plugins that want to delete points if the
+ * content/object that awarded the points is deleted.
+ *
  * @param  integer  $guid The guid of the object being deleted
  *
  * @return false|void
  */
-function elggx_userpoints_delete($user_guid, $guid) {
+function elggx_userpoints_delete_by_meta_guid($guid) {
 
 	if (!elgg_get_plugin_setting('delete', 'elggx_userpoints')) {
 		return false;
@@ -237,25 +319,31 @@ function elggx_userpoints_delete($user_guid, $guid) {
 	$access_status = access_get_show_hidden_status();
 	access_show_hidden_entities(true);
 
-	$points = 0;
+	$points_array = [];
 
 	$entities = elgg_get_entities_from_metadata([
-		'metadata_name' => 'meta_guid',
-		'metadata_value' => $guid,
 		'type' => 'object',
 		'subtype' => Userpoint::SUBTYPE,
-		'owner_guid' => $user_guid,
+		'metadata_name' => 'meta_guid',
+		'metadata_value' => $guid,
 		'limit' => false,
 		'batch' => true,
+		'batch_inc_offset' => false,
 	]);
 	/* @var $entity Userpoint */
 	foreach ($entities as $entity) {
-		$points += $entity->meta_points;
+		if (array_key_exists($entity->owner_guid, $points_array)) {
+			$points_array[$entity->owner_guid] += $entity->meta_points;
+		} else {
+			$points_array[$entity->owner_guid] = $entity->meta_points;
+		}
 		$entity->delete();
 	}
 
 	// Decrement the users total points
-	elggx_userpoints_update_user($user_guid, -$points);
+	foreach ($points_array as $user_guid => $points) {
+		elggx_userpoints_update_user($user_guid, -$points);
+	}
 
 	access_show_hidden_entities($access_status);
 	elgg_set_ignore_access($access);
@@ -296,11 +384,11 @@ function elggx_userpoints_delete_by_userpoint($guid) {
 function elggx_userpoints_update_user($guid, $points) {
 	$user = get_user($guid);
 	$points = (int) $points;
-	
+
 	if (empty($user)) {
 		return false;
 	}
-	
+
 	if (is_int($user->userpoints_points)) {
 		$user->userpoints_points = (int) $user->userpoints_points + $points;
 	} else {
@@ -423,9 +511,9 @@ function elggx_userpoints_invite_status($guid = null, $email) {
 		elgg_set_ignore_access($access);
 		return false;
 	}
-	
+
 	$status = [];
-	
+
 	/* @var $entity Userpoint */
 	foreach ($entities as $entity) {
 		if ($entity->description === $email) {
@@ -454,7 +542,7 @@ function elggx_userpoints_invite_status($guid = null, $email) {
  */
 function elggx_userpoints_validEmail($email) {
 	$isValid = true;
-	
+
 	$atIndex = strrpos($email, "@");
 	if (is_bool($atIndex) && !$atIndex) {
 		$isValid = false;
@@ -463,7 +551,7 @@ function elggx_userpoints_validEmail($email) {
 		$local = substr($email, 0, $atIndex);
 		$localLen = strlen($local);
 		$domainLen = strlen($domain);
-		
+
 		if ($localLen < 1 || $localLen > 64) {
 			// local part length exceeded
 			$isValid = false;
@@ -489,12 +577,12 @@ function elggx_userpoints_validEmail($email) {
 				$isValid = false;
 			}
 		}
-		
+
 		if ($isValid && !(checkdnsrr($domain,"MX") || checkdnsrr($domain,"A"))) {
 			// domain not found in DNS
 			$isValid = false;
 		}
 	}
-	
+
 	return $isValid;
 }

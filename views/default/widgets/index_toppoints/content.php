@@ -28,5 +28,6 @@ echo elgg_list_entities_from_metadata([
 		'value' => 0,
 		'operand' => '>',
 	],
+	'pagination' => false,
 	'item_view' => 'elggx_userpoints/list/user',
 ]);

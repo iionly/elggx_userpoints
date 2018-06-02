@@ -15,10 +15,12 @@ $plugin = elgg_extract('entity', $vars);
 $title = elgg_echo('userpoints_standard:invitesettings');
 
 $content = elgg_view_field([
-	'#type' => 'text',
+	'#type' => 'number',
 	'#label' => elgg_echo('userpoints_standard:invite'),
 	'name' => 'params[invite]',
 	'value' => $plugin->invite,
+	'min' => 0,
+	'step' => 1,
 ]);
 
 $content .= elgg_view_field([

@@ -103,8 +103,8 @@ $content .= elgg_view_field([
 $content .= elgg_view_field([
 	'#type' => 'number',
 	'#label' => elgg_echo('userpoints_standard:page_top'),
-	'name' => 'params[likes]',
-	'value' => $plugin->likes,
+	'name' => 'params[page_top]',
+	'value' => $plugin->page_top,
 	'min' => 0,
 	'step' => 1,
 ]);
@@ -112,8 +112,8 @@ $content .= elgg_view_field([
 $content .= elgg_view_field([
 	'#type' => 'number',
 	'#label' => elgg_echo('userpoints_standard:likes'),
-	'name' => 'params[page_top]',
-	'value' => $plugin->page_top,
+	'name' => 'params[likes]',
+	'value' => $plugin->likes,
 	'min' => 0,
 	'step' => 1,
 ]);

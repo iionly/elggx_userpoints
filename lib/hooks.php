@@ -96,7 +96,7 @@ function elggx_userpoints_members_list($hook, $type, $returnvalue, $params) {
 		'count' => true,
 		'order_by_metadata' => [
 			'name' => 'userpoints_points',
-			'direction' => DESC,
+			'direction' => 'DESC',
 			'as' => 'integer',
 		],
 		'metadata_name_value_pairs' => [

@@ -19,7 +19,7 @@ access_show_hidden_entities(true);
 
 $oldversion = elgg_get_plugin_setting('version', 'userpoints');
 $current_version = elgg_get_plugin_setting('version', 'elggx_userpoints');
-$new_version = '2.3.2';
+$new_version = '2.3.3';
 
 // Check if we need to run an upgrade
 if ($oldversion && !$current_version) {

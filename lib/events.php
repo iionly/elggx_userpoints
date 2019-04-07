@@ -73,7 +73,7 @@ function elggx_userpoints_group($event, $object_type, $object) {
 	}
 }
 
-function elggx_userpoints_profile($event, $type, $object) {
+function elggx_userpoints_profile($event, $type, $user) {
 
 	$points = (int) elgg_get_plugin_setting('profileupdate', 'elggx_userpoints');
 	if (empty($points)) {
@@ -89,14 +89,14 @@ function elggx_userpoints_profile($event, $type, $object) {
 	}
 
 	// The login threshold has been met so now add the points
-	if (!elggx_userpoints_add(elgg_get_logged_in_user_guid(), $points, $event, $type, $object->entity_guid)) {
+	if (!elggx_userpoints_add($user->guid, $points, 'Profileupdate')) {
 		return;
 	}
 
 	$user->userpoints_profileupdate = time();
 }
 
-function elggx_userpoints_profileiconupdate($event, $type, $object) {
+function elggx_userpoints_profileiconupdate($event, $type, $user) {
 
 	$points = (int) elgg_get_plugin_setting('profileicon', 'elggx_userpoints');
 	if (empty($points)) {
@@ -112,7 +112,7 @@ function elggx_userpoints_profileiconupdate($event, $type, $object) {
 	}
 
 	// The login threshold has been met so now add the points
-	if (!elggx_userpoints_add(elgg_get_logged_in_user_guid(), $points, $event, $type, $object->entity_guid)) {
+	if (!elggx_userpoints_add($user->guid, $points, 'Profileiconupdate')) {
 		return;
 	}
 

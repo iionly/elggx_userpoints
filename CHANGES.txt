@@ -1,6 +1,12 @@
 Changelog
 =========
 
+2.3.4
+-----
+
+- Fix: correctly handle awarding of userpoints on editing / updating profile info,
+- Fix: correctly handle awarding of userpoints on profileicon upload / update.
+
 2.3.3
 -----
 

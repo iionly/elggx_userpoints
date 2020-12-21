@@ -3,7 +3,7 @@
 	<name>Elggx Userpoints</name>
 	<id>elggx_userpoints</id>
 	<author>iionly (for Elgg 1.8 and newer) / Billy Gunn</author>
-	<version>3.0.0</version>
+	<version>3.3.0</version>
 	<category>enhancement</category>
 	<description>This plugin provides a mechanism for users to gain or lose points for performing certain actions on your site.</description>
 	<website>https://github.com/iionly</website>
@@ -12,7 +12,7 @@
 
 	<requires>
 		<type>elgg_release</type>
-		<version>3.0.0</version>
+		<version>3.3.0</version>
 	</requires>
 
 	<suggests>

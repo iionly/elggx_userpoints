@@ -42,12 +42,14 @@ class Userpoint extends ElggObject {
 	 * @see ElggEntity::canDelete()
 	 */
 	public function canDelete($user_guid = 0) {
-		
+
 		$user_guid = (int) $user_guid;
 		if (empty($user_guid)) {
-			$user_guid = elgg_get_logged_in_user_guid();
+			$user = elgg_get_logged_in_user_entity();
+		} else {
+			$user = get_user($user_guid);
 		}
-		
-		return elgg_is_admin_user($user_guid);
+
+		return $user->isAdmin();;
 	}
 }

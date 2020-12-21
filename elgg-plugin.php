@@ -37,4 +37,27 @@ return [
 			'context' => ['index'],
 		],
 	],
+	'view_extensions' => [
+		// Extend CSS/js
+		'css/elgg' => [
+			'elggx_userpoints/site.css' => [],
+		],
+		'css/admin' => [
+			'elggx_userpoints/admin.css' => [],
+		],
+		'icon/user/default' => [
+			'elggx_userpoints/icon' => [],
+		],
+		// Extend form with points settings
+		'forms/elggx_userpoints/actions' => [
+			'elggx_userpoints/actions/general' => ['priority' => 100],
+			'elggx_userpoints/actions/profile' => [],
+			'elggx_userpoints/actions/poll' => [],
+			'elggx_userpoints/actions/izap_videos' => [],
+			'elggx_userpoints/actions/tidypics' => [],
+			'elggx_userpoints/actions/elggx_fivestar' => [],
+			'elggx_userpoints/actions/login' => [],
+			'elggx_userpoints/actions/invite_friends' => [],
+		],
+	],
 ];

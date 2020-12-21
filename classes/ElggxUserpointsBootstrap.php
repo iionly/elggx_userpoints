@@ -5,21 +5,6 @@ use Elgg\DefaultPluginBootstrap;
 class ElggxUserpointsBootstrap extends DefaultPluginBootstrap {
 
 	public function init() {
-		// Extend CSS/js
-		elgg_extend_view('elgg.css', 'elggx_userpoints/site.css');
-		elgg_extend_view('admin.css', 'elggx_userpoints/admin.css');
-		elgg_extend_view('icon/user/default','elggx_userpoints/icon');
-		
-		// Extend form with points settings
-		elgg_extend_view('forms/elggx_userpoints/actions', 'elggx_userpoints/actions/general', 100);
-		elgg_extend_view('forms/elggx_userpoints/actions', 'elggx_userpoints/actions/profile');
-		elgg_extend_view('forms/elggx_userpoints/actions', 'elggx_userpoints/actions/poll');
-		elgg_extend_view('forms/elggx_userpoints/actions', 'elggx_userpoints/actions/izap_videos');
-		elgg_extend_view('forms/elggx_userpoints/actions', 'elggx_userpoints/actions/tidypics');
-		elgg_extend_view('forms/elggx_userpoints/actions', 'elggx_userpoints/actions/elggx_fivestar');
-		elgg_extend_view('forms/elggx_userpoints/actions', 'elggx_userpoints/actions/login');
-		elgg_extend_view('forms/elggx_userpoints/actions', 'elggx_userpoints/actions/invite_friends');
-
 		// Entity Menu
 		elgg_register_plugin_hook_handler('register', 'menu:entity', 'elggx_userpoints_entity_menu');
 
@@ -49,12 +34,15 @@ class ElggxUserpointsBootstrap extends DefaultPluginBootstrap {
 
 	public function activate() {
 		$current_version = elgg_get_plugin_setting('version', 'elggx_userpoints');
-		$new_version = '3.0.0';
+		$new_version = '3.3.0';
 
-		if (version_compare($current_version, $new_version, '!=')) {
+		if (version_compare($current_version, '3.0.0', '<')) {
 			// Elgg 3 saves discussion replies as comment entities so no longer a separate points setting possible
 			elgg_unset_plugin_setting('recommendations_approve', 'elggx_userpoints');
 
+			// Set new version
+			elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
+		} else if (version_compare($current_version, $new_version, '!=')) {
 			// Set new version
 			elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
 		}

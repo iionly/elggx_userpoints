@@ -161,7 +161,7 @@ function elggx_userpoints_expire($hook, $type, $return, $params) {
  */
 function elggx_userpoints_exists($user_guid, $type, $guid) {
 	
-	return (bool) elgg_get_entities_from_metadata([
+	return (bool) elgg_get_entities([
 		'type' => 'object',
 		'subtype' => Userpoint::SUBTYPE,
 		'owner_guid' => $user_guid,
@@ -195,7 +195,7 @@ function elggx_userpoints_get($user_guid) {
 		'pending' => 0,
 	];
 
-	$entities = elgg_get_entities_from_metadata([
+	$entities = elgg_get_entities([
 		'metadata_name' => 'meta_points',
 		'type' => 'object',
 		'subtype' => Userpoint::SUBTYPE,
@@ -239,11 +239,10 @@ function elggx_userpoints_get($user_guid) {
  * @param  string   $description The userpoint record description string or null; can be either the entity subtype,
  *                  or annotation name, or metadata name, or a specific description string matching the userpoints record description
  * @param  integer  $limit The maximum number of userpoints record to delete; either positive int or for no limit either 0 or false
- * @param  bool     $reverse If true fetch/delete oldest userpoints record first (up to limit)
  *
  * @return false|void
  */
-function elggx_userpoints_delete($user_guid, $meta_guid, $type = null, $description = null, $limit = false, $reverse = false) {
+function elggx_userpoints_delete($user_guid, $meta_guid, $type = null, $description = null, $limit = false) {
 
 	if (!elgg_get_plugin_setting('delete', 'elggx_userpoints')) {
 		return false;
@@ -251,51 +250,45 @@ function elggx_userpoints_delete($user_guid, $meta_guid, $type = null, $descript
 
 	$user = get_user($user_guid);
 	if ($user instanceof ElggUser) {
-	
-		$access = elgg_set_ignore_access(true);
-		$access_status = access_get_show_hidden_status();
-		access_show_hidden_entities(true);
 
-		$points = 0;
+		elgg_call(ELGG_IGNORE_ACCESS | ELGG_SHOW_DISABLED_ENTITIES, function () use($user_guid, $description, $type, $meta_guid, $limit) {
+			$points = 0;
 
-		$entities = elgg_get_entities_from_attributes([
-			'type' => 'object',
-			'subtype' => Userpoint::SUBTYPE,
-			'owner_guid' => $user_guid,
-			'attribute_name_value_pairs' => [
-				'name' => 'description',
-				'value' => $description,
-				'operand' => '=',
-				'case_sensitive' => true,
-			],
-			'metadata_name_value_pairs' => [
-				[
-					'name' => 'meta_type',
-					'value' => $type,
+			$entities = elgg_get_entities([
+				'type' => 'object',
+				'subtype' => Userpoint::SUBTYPE,
+				'owner_guid' => $user_guid,
+				'attribute_name_value_pairs' => [
+					'name' => 'description',
+					'value' => $description,
 					'operand' => '=',
+					'case_sensitive' => true,
 				],
-				[
-					'name' => 'meta_guid',
-					'value' => $meta_guid,
-					'operand' => '=',
+				'metadata_name_value_pairs' => [
+					[
+						'name' => 'meta_type',
+						'value' => $type,
+						'operand' => '=',
+					],
+					[
+						'name' => 'meta_guid',
+						'value' => $meta_guid,
+						'operand' => '=',
+					],
 				],
-			],
-			'reverse_order_by' => $reverse,
-			'limit' => $limit,
-			'batch' => true,
-			'batch_inc_offset' => false,
-		]);
-		/* @var $entity Userpoint */
-		foreach ($entities as $entity) {
-			$points = $points + $entity->meta_points;
-			$entity->delete();
-		}
+				'limit' => $limit,
+				'batch' => true,
+				'batch_inc_offset' => false,
+			]);
+			/* @var $entity Userpoint */
+			foreach ($entities as $entity) {
+				$points = $points + $entity->meta_points;
+				$entity->delete();
+			}
 
-		// Decrement the users total points
-		elggx_userpoints_update_user($user_guid, -$points);
-
-		access_show_hidden_entities($access_status);
-		elgg_set_ignore_access($access);
+			// Decrement the users total points
+			elggx_userpoints_update_user($user_guid, -$points);
+		});
 	}
 }
 
@@ -315,38 +308,33 @@ function elggx_userpoints_delete_by_meta_guid($guid) {
 		return false;
 	}
 
-	$access = elgg_set_ignore_access(true);
-	$access_status = access_get_show_hidden_status();
-	access_show_hidden_entities(true);
+	elgg_call(ELGG_IGNORE_ACCESS | ELGG_SHOW_DISABLED_ENTITIES, function () use($guid) {
+		$points_array = [];
 
-	$points_array = [];
-
-	$entities = elgg_get_entities_from_metadata([
-		'type' => 'object',
-		'subtype' => Userpoint::SUBTYPE,
-		'metadata_name' => 'meta_guid',
-		'metadata_value' => $guid,
-		'limit' => false,
-		'batch' => true,
-		'batch_inc_offset' => false,
-	]);
-	/* @var $entity Userpoint */
-	foreach ($entities as $entity) {
-		if (array_key_exists($entity->owner_guid, $points_array)) {
-			$points_array[$entity->owner_guid] += $entity->meta_points;
-		} else {
-			$points_array[$entity->owner_guid] = $entity->meta_points;
+		$entities = elgg_get_entities([
+			'type' => 'object',
+			'subtype' => Userpoint::SUBTYPE,
+			'metadata_name' => 'meta_guid',
+			'metadata_value' => $guid,
+			'limit' => false,
+			'batch' => true,
+			'batch_inc_offset' => false,
+		]);
+		/* @var $entity Userpoint */
+		foreach ($entities as $entity) {
+			if (array_key_exists($entity->owner_guid, $points_array)) {
+				$points_array[$entity->owner_guid] += $entity->meta_points;
+			} else {
+				$points_array[$entity->owner_guid] = $entity->meta_points;
+			}
+			$entity->delete();
 		}
-		$entity->delete();
-	}
 
-	// Decrement the users total points
-	foreach ($points_array as $user_guid => $points) {
-		elggx_userpoints_update_user($user_guid, -$points);
-	}
-
-	access_show_hidden_entities($access_status);
-	elgg_set_ignore_access($access);
+		// Decrement the users total points
+		foreach ($points_array as $user_guid => $points) {
+			elggx_userpoints_update_user($user_guid, -$points);
+		}
+	});
 }
 
 /**
@@ -441,40 +429,37 @@ function elggx_userpoints_moderate($guid, $status) {
  */
 function elggx_userpoints_registration_award($email) {
 
-	$access = elgg_set_ignore_access(true);
+	elgg_call(ELGG_IGNORE_ACCESS, function () use($email) {
+		$guids = elggx_userpoints_invite_status(null, $email);
 
-	$guids = elggx_userpoints_invite_status(null, $email);
-
-	if (empty($guids)) {
-		elgg_set_ignore_access($access);
-		return;
-	}
-	
-	foreach ($guids as $guid) {
-		$entity = get_entity($guid);
-		$entity->meta_moderate = 'approved';
-
-		$user = get_user($entity->owner_guid);
-
-		if (is_int($user->userpoints_points)) {
-			$user->userpoints_points = (int) $user->userpoints_points + (int) $entity->meta_points;
-		} else {
-			elgg_delete_metadata([
-				'guid' => $user->guid,
-				'metadata_name' => 'userpoints_points',
-			]);
-
-			$users_points = elggx_userpoints_get($user->guid);
-			$users_approved_points = $users_points['approved'];
-			$user->userpoints_points = (int)$users_approved_points;
+		if (empty($guids)) {
+			return;
 		}
 
-		if (!elgg_trigger_plugin_hook('userpoints:update', 'object', ['entity' => $user], true)) {
-			$user->userpoints_points = (int) $user->userpoints_points - (int) $entity->meta_points;
-		}
-	}
+		foreach ($guids as $guid) {
+			$entity = get_entity($guid);
+			$entity->meta_moderate = 'approved';
 
-	elgg_set_ignore_access($access);
+			$user = get_user($entity->owner_guid);
+
+			if (is_int($user->userpoints_points)) {
+				$user->userpoints_points = (int) $user->userpoints_points + (int) $entity->meta_points;
+			} else {
+				elgg_delete_metadata([
+					'guid' => $user->guid,
+					'metadata_name' => 'userpoints_points',
+				]);
+
+				$users_points = elggx_userpoints_get($user->guid);
+				$users_approved_points = $users_points['approved'];
+				$user->userpoints_points = (int)$users_approved_points;
+			}
+
+			if (!elgg_trigger_plugin_hook('userpoints:update', 'object', ['entity' => $user], true)) {
+				$user->userpoints_points = (int) $user->userpoints_points - (int) $entity->meta_points;
+			}
+		}
+	});
 }
 
 /**
@@ -487,42 +472,39 @@ function elggx_userpoints_registration_award($email) {
  */
 function elggx_userpoints_invite_status($guid = null, $email) {
 
-	$access = elgg_set_ignore_access(true);
-
-	$entities = elgg_get_entities_from_metadata([
-		'type' => 'object',
-		'subtype' => Userpoint::SUBTYPE,
-		'owner_guid' => $guid,
-		'limit' => false,
-		'metadata_name_value_pairs' => [
-			[
-				'name' => 'meta_type',
-				'value' => 'invite',
-				'operand' => '=',
+	elgg_call(ELGG_IGNORE_ACCESS, function () use($guid, $email) {
+		$entities = elgg_get_entities([
+			'type' => 'object',
+			'subtype' => Userpoint::SUBTYPE,
+			'owner_guid' => $guid,
+			'limit' => false,
+			'metadata_name_value_pairs' => [
+				[
+					'name' => 'meta_type',
+					'value' => 'invite',
+					'operand' => '=',
+				],
+				[
+					'name' => 'meta_moderate',
+					'value' => 'pending',
+					'operand' => '=',
+				],
 			],
-			[
-				'name' => 'meta_moderate',
-				'value' => 'pending',
-				'operand' => '=',
-			],
-		],
-	]);
-	if (empty($entities)) {
-		elgg_set_ignore_access($access);
-		return false;
-	}
-
-	$status = [];
-
-	/* @var $entity Userpoint */
-	foreach ($entities as $entity) {
-		if ($entity->description === $email) {
-			$status[] = $entity->guid;
+		]);
+		if (empty($entities)) {
+			return false;
 		}
-	}
 
-	elgg_set_ignore_access($access);
-	
+		$status = [];
+
+		/* @var $entity Userpoint */
+		foreach ($entities as $entity) {
+			if ($entity->description === $email) {
+				$status[] = $entity->guid;
+			}
+		}
+	});
+
 	if (empty($status)) {
 		return false;
 	}

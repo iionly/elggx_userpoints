@@ -1,13 +1,17 @@
 <?php
 
-function elggx_userpoints_validate($event, $object_type, $object) {
+function elggx_userpoints_validate(\Elgg\Event $event) {
+	$event_name = $event->getName();
+	$object_type = $event->getType();
+	$object = $event->getObject();
 
-	if ($event === 'enable' && $object_type === 'user' && $object instanceof ElggUser) {
+	if ($event_name === 'enable' && $object_type === 'user' && $object instanceof ElggUser) {
 		elggx_userpoints_registration_award($object->email);
 	}
 }
 
-function elggx_userpoints_login($event, $type, $user) {
+function elggx_userpoints_login(\Elgg\Event $event) {
+	$user = $event->getObject();
 
 	$points = (int) elgg_get_plugin_setting('login', 'elggx_userpoints');
 	if (empty($points)) {
@@ -38,42 +42,51 @@ function elggx_userpoints_login($event, $type, $user) {
 	}
 }
 
-function elggx_userpoints_object($event, $object_type, $object) {
+function elggx_userpoints_object(\Elgg\Event $event) {
+	$event_name = $event->getName();
+	$object = $event->getObject();
 
-	if ($event == 'create') {
+	if ($event_name == 'create') {
 		$subtype = $object->getSubtype();
 		if ($points = elgg_get_plugin_setting($subtype, 'elggx_userpoints')) {
 			elggx_userpoints_add($object->owner_guid, $points, $subtype, $subtype, $object->guid);
 		}
-	} else if ($event == 'delete') {
+	} else if ($event_name == 'delete') {
 		elggx_userpoints_delete_by_meta_guid($object->guid);
 	}
 }
 
-function elggx_userpoints_annotate($event, $object_type, $object) {
+function elggx_userpoints_annotate(\Elgg\Event $event) {
+	$event_name = $event->getName();
+	$object_type = $event->getType();
+	$object = $event->getObject();
 
 	$description = $object->name;
-	if ($event == 'create') {
+	if ($event_name == 'create') {
 		if ($points = elgg_get_plugin_setting($description, 'elggx_userpoints')) {
 			elggx_userpoints_add($object->owner_guid, $points, $description, $object_type, $object->entity_guid);
 		}
-	} else if ($event == 'delete') {
+	} else if ($event_name == 'delete') {
 		elggx_userpoints_delete($object->owner_guid, $object->entity_guid, $object_type, $description, 1, true);
 	}
 }
 
-function elggx_userpoints_group($event, $object_type, $object) {
+function elggx_userpoints_group(\Elgg\Event $event) {
+	$event_name = $event->getName();
+	$object_type = $event->getType();
+	$object = $event->getObject();
 
-	if ($event == 'create') {
+	if ($event_name == 'create') {
 		if ($points = elgg_get_plugin_setting($object_type, 'elggx_userpoints')) {
 			elggx_userpoints_add($object->owner_guid, $points, $object_type, $object_type, $object->guid);
 		}
-	} else if ($event == 'delete') {
+	} else if ($event_name == 'delete') {
 		elggx_userpoints_delete_by_meta_guid($object->guid);
 	}
 }
 
-function elggx_userpoints_profile($event, $type, $user) {
+function elggx_userpoints_profile(\Elgg\Event $event) {
+	$user = $event->getObject();
 
 	$points = (int) elgg_get_plugin_setting('profileupdate', 'elggx_userpoints');
 	if (empty($points)) {
@@ -96,7 +109,8 @@ function elggx_userpoints_profile($event, $type, $user) {
 	$user->userpoints_profileupdate = time();
 }
 
-function elggx_userpoints_profileiconupdate($event, $type, $user) {
+function elggx_userpoints_profileiconupdate(\Elgg\Event $event) {
+	$user = $event->getObject();
 
 	$points = (int) elgg_get_plugin_setting('profileicon', 'elggx_userpoints');
 	if (empty($points)) {
@@ -119,7 +133,10 @@ function elggx_userpoints_profileiconupdate($event, $type, $user) {
 	$user->userpoints_profileiconupdate = time();
 }
 
-function elggx_userpoints_relationship($event, $object_type, $object) {
+function elggx_userpoints_relationship(\Elgg\Event $event) {
+	$event_name = $event->getName();
+	$object_type = $event->getType();
+	$object = $event->getObject();
 
 	if ($object_type !== 'relationship' || $object->relationship !== 'friend') {
 		return;
@@ -128,23 +145,16 @@ function elggx_userpoints_relationship($event, $object_type, $object) {
 	$subject_user = get_user($object->guid_one);
 	$object_user = get_user($object->guid_two);
 
-	$access = elgg_set_ignore_access(true);
-	$access_status = access_get_show_hidden_status();
-	access_show_hidden_entities(true);
-
-	if ($event == 'create') {
-		$points = (int) elgg_get_plugin_setting('friend', 'elggx_userpoints');
-		if (empty($points)) {
-			// no point configured for friending
-			access_show_hidden_entities($access_status);
-			elgg_set_ignore_access($access);
-			return;
+	elgg_call(ELGG_IGNORE_ACCESS | ELGG_SHOW_DISABLED_ENTITIES, function () use($event_name, $object_type, $subject_user, $object_user) {
+		if ($event_name == 'create') {
+			$points = (int) elgg_get_plugin_setting('friend', 'elggx_userpoints');
+			if (empty($points)) {
+				// no point configured for friending
+				return;
+			}
+			elggx_userpoints_add($subject_user->guid, $points, 'Befriending', $object_type, $object_user->guid);
+		} else if ($event_name == 'delete') {
+			elggx_userpoints_delete($subject_user->guid, $object_user->guid, $object_type, 'Befriending', 1);
 		}
-		elggx_userpoints_add($subject_user->guid, $points, 'Befriending', $object_type, $object_user->guid);
-	} else if ($event == 'delete') {
-		elggx_userpoints_delete($subject_user->guid, $object_user->guid, $object_type, 'Befriending', 1, false);
-	}
-
-	access_show_hidden_entities($access_status);
-	elgg_set_ignore_access($access);
+	});
 }

@@ -29,8 +29,8 @@ foreach ($tabs as $tab => $tab_settings) {
 	}
 
 	$params['tabs'][] = [
-		'title' => elgg_echo("elggx_userpoints:{$tab}"),
-		'url' => $href,
+		'text' => elgg_echo("elggx_userpoints:{$tab}"),
+		'href' => $href,
 		'selected' => ($tab === $selected_tab),
 	];
 }

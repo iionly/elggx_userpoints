@@ -6,16 +6,12 @@
  *
  */
 
-/* @var $widget ElggWidget */
 $widget = elgg_extract('entity', $vars);
 
-// get widget settings
-$limit = (int) $widget->toppoints_count;
-if ($limit < 1) {
-	$limit = 10;
-}
+$limit = (int) $widget->toppoints_count ?: 10;
 
-echo elgg_list_entities_from_metadata([
+elgg_push_context('front');
+echo elgg_list_entities([
 	'type' => 'user',
 	'limit' => $limit,
 	'order_by_metadata' => [
@@ -31,3 +27,4 @@ echo elgg_list_entities_from_metadata([
 	'pagination' => false,
 	'item_view' => 'elggx_userpoints/list/user',
 ]);
+elgg_pop_context();

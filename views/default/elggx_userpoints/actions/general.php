@@ -84,15 +84,6 @@ $content .= elgg_view_field([
 
 $content .= elgg_view_field([
 	'#type' => 'number',
-	'#label' => elgg_echo('userpoints_standard:discussion_reply'),
-	'name' => 'params[discussion_reply]',
-	'value' => $plugin->discussion_reply,
-	'min' => 0,
-	'step' => 1,
-]);
-
-$content .= elgg_view_field([
-	'#type' => 'number',
 	'#label' => elgg_echo('userpoints_standard:messageboard'),
 	'name' => 'params[messageboard]',
 	'value' => $plugin->messageboard,

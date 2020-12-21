@@ -1,6 +1,13 @@
 Changelog
 =========
 
+3.0.0
+-----
+
+- Elgg 3.0 required at minimum,
+- Updated for Elgg 3,
+- No separate points setting for discussion replies anymore, because Elgg 3 saves the replies now as Elgg comment entities.
+
 2.3.4
 -----
 

@@ -20,7 +20,7 @@ $options = [
 	],
 ];
 
-$count = elgg_get_entities_from_metadata($options);
+$count = elgg_get_entities($options);
 
 if (!empty($count)) {
 
@@ -36,7 +36,7 @@ if (!empty($count)) {
 	$rows = [];
 
 	$options['count'] = false;
-	$entities = elgg_get_entities_from_metadata($options);
+	$entities = elgg_get_entities($options);
 
 	/* @var $entity ElggUser */
 	foreach ($entities as $entity) {

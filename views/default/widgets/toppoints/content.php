@@ -1,14 +1,10 @@
 <?php
 
-/* @var $widget ElggWidget */
 $widget = elgg_extract('entity', $vars);
 
-$limit = (int) $widget->num_display;
-if ($limit < 1) {
-	$limit = 10;
-}
+$limit = (int) $widget->num_display ?: 10;
 
-echo elgg_list_entities_from_metadata([
+echo elgg_list_entities([
 	'type' => 'user',
 	'limit' => $limit,
 	'order_by_metadata' => [

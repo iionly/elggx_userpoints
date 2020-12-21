@@ -1,6 +1,6 @@
 <?php
 
-echo elgg_list_entities_from_metadata([
+echo elgg_list_entities([
 	'type' => 'object',
 	'subtype' => Userpoint::SUBTYPE,
 	'metadata_name_value_pairs' => [

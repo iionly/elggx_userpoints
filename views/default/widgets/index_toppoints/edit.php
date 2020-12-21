@@ -6,20 +6,12 @@
  *
  */
 
-/* @var $widget ElggWidget */
 $widget = elgg_extract('entity', $vars);
 
-$count = (int) $widget->toppoints_count;
-if ($count < 1) {
-	$count = 10;
-}
-
-echo elgg_view_field([
-	'#type' => 'number',
-	'#label' => elgg_echo('elggx_userpoints:settings:toppoints:num'),
-	'name' => 'params[toppoints_count]',
-	'value' => $count,
-	'min' => 1,
+echo elgg_view('object/widget/edit/num_display', [
+	'entity' => $widget,
+	'name' => 'toppoints_count',
+	'label' => elgg_echo('elggx_userpoints:settings:toppoints:num'),
 	'max' => 25,
-	'step' => 1,
+	'default' => 10,
 ]);

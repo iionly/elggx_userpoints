@@ -25,6 +25,7 @@ if (elgg_get_logged_in_user_guid() === $entity->guid) {
 
 $params = [
 	'entity' => $entity,
+	'subtitle' => '',
 	'title' => elgg_view('output/url', $link_params),
 ];
 

@@ -472,7 +472,7 @@ function elggx_userpoints_registration_award($email) {
  */
 function elggx_userpoints_invite_status($guid = null, $email) {
 
-	elgg_call(ELGG_IGNORE_ACCESS, function () use($guid, $email) {
+	$status = elgg_call(ELGG_IGNORE_ACCESS, function () use($guid, $email) {
 		$entities = elgg_get_entities([
 			'type' => 'object',
 			'subtype' => Userpoint::SUBTYPE,

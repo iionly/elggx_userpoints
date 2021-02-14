@@ -1,6 +1,12 @@
 Changelog
 =========
 
+3.3.1
+-----
+
+- Handling of return value from usage of elgg_call() in elggx_userpoints_invite_status() correctly resolved,
+- Changed usage of deprecated 'action', 'register' plugin hook to usage of 'action:validate', 'register' plugin hook.
+
 3.3.0
 -----
 

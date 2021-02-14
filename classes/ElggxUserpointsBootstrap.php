@@ -13,7 +13,7 @@ class ElggxUserpointsBootstrap extends DefaultPluginBootstrap {
 
 		// Hooks for awarding points
 		elgg_register_plugin_hook_handler('action', 'invitefriends/invite', 'elggx_userpoints_invite');
-		elgg_register_plugin_hook_handler('action', 'register', 'elggx_userpoints_register');
+		elgg_register_plugin_hook_handler('action:validate', 'register', 'elggx_userpoints_register');
 
 		elgg_register_plugin_hook_handler('register', 'menu:filter:members', 'elggx_userpoints_members_nav');
 

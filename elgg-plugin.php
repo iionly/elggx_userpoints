@@ -29,6 +29,14 @@ return [
 			'resource' => 'members/elggx_userpoints',
 		],
 	],
+	'settings' => [
+		'moderate' => '1',
+		'profile_display' => '1',
+		'displaymessage' => '1',
+		'subtract' => '0',
+		'delete' => '0',
+		'expire_after' => '0',
+	],
 	'widgets' => [
 		'toppoints' => [
 			'context' => ['profile', 'dashboard'],

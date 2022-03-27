@@ -1,7 +1,7 @@
 Elggx Userpoints plugin for Elgg 3.3 and newer Elgg 3.X
 =======================================================
 
-Latest Version: 3.3.2  
+Latest Version: 3.3.3  
 Released: 2022-03-27  
 Contact: iionly@gmx.de  
 License: GNU General Public License version 2  

@@ -1,6 +1,11 @@
 Changelog
 =========
 
+3.3.3
+-----
+
+- Default plugin settings values added to elgg-plugin.php.
+
 3.3.2
 -----
 

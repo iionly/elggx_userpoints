@@ -20,5 +20,13 @@
     },
     "require": {
         "composer/installers": ">=1.0.8"
+    },
+    "conflict": {
+        "elgg/elgg": "<4.0"
+    },
+    "suggest": {
+        "coldtrick/widget_manager": "With the Widget Manager plugin available the Elggx Userpoints plugin offers a widget for the index page (homepage) listing the members with most userpoints.",
+        "elgg/members": "With the bundled Members plugin enabled the Elggx Userpoints plugin can display the members' userpoints also on the member page.",
+        "iionly/expirationdate": "With the Expirationdate plugin available the userpoints can be configured to expire after a certain interval (e.g. after a day, week, or a year)."
     }
 }

@@ -5,6 +5,10 @@ require_once(dirname(__FILE__) . '/lib/events.php');
 require_once(dirname(__FILE__) . '/lib/hooks.php');
 
 return [
+	'plugin' => [
+		'name' => 'Elggx Userpoints',
+		'version' => '4.0.0',
+	],
 	'bootstrap' => \ElggxUserpointsBootstrap::class,
 	'entities' => [
 		[

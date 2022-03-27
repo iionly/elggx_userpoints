@@ -86,7 +86,7 @@ function elggx_userpoints_add($user_guid, $points, $description, $type = null, $
 
 	// Setup point expiration if enabled
 	if (elgg_get_plugin_setting('expire_after', 'elggx_userpoints')) {
-		if (function_exists('expirationdate_set')) {
+		if (elgg_is_active_plugin('expirationdate')) {
 			$ts = time() + elgg_get_plugin_setting('expire_after', 'elggx_userpoints');
 			expirationdate_set($userpoint->guid, date('Y-m-d H:i:s', $ts), false);
 		}

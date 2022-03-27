@@ -34,17 +34,12 @@ class ElggxUserpointsBootstrap extends DefaultPluginBootstrap {
 
 	public function activate() {
 		$current_version = elgg_get_plugin_setting('version', 'elggx_userpoints');
-		$new_version = '3.3.2';
+		$new_version = '4.0.0';
 
-		if (version_compare($current_version, '3.0.0', '<')) {
-			// Elgg 3 saves discussion replies as comment entities so no longer a separate points setting possible
-			elgg_unset_plugin_setting('recommendations_approve', 'elggx_userpoints');
-
+		if (version_compare($current_version, $new_version, '!=')) {
 			// Set new version
-			elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
-		} else if (version_compare($current_version, $new_version, '!=')) {
-			// Set new version
-			elgg_set_plugin_setting('version', $new_version, 'elggx_userpoints');
+			$plugin = elgg_get_plugin_from_id('elggx_userpoints');
+			$plugin->setSetting('version', $new_version);
 		}
 	}
 }

@@ -34,7 +34,7 @@ class ElggxUserpointsBootstrap extends DefaultPluginBootstrap {
 
 	public function activate() {
 		$current_version = elgg_get_plugin_setting('version', 'elggx_userpoints');
-		$new_version = '3.3.0';
+		$new_version = '3.3.2';
 
 		if (version_compare($current_version, '3.0.0', '<')) {
 			// Elgg 3 saves discussion replies as comment entities so no longer a separate points setting possible

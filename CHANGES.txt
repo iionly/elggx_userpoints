@@ -1,6 +1,11 @@
 Changelog
 =========
 
+3.3.2
+-----
+
+- Franch translations added (thanks to Facyla).
+
 3.3.1
 -----
 

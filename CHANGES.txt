@@ -1,6 +1,13 @@
 Changelog
 =========
 
+4.2.0
+-----
+
+- Elgg 4.2 required at minimum,
+- Updated for Elgg 4.2,
+- Fixed deprecation issues introduced by Elgg 4.1 and 4.2.
+
 4.0.0
 -----
 

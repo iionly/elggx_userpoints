@@ -7,7 +7,7 @@ require_once(dirname(__FILE__) . '/lib/hooks.php');
 return [
 	'plugin' => [
 		'name' => 'Elggx Userpoints',
-		'version' => '4.0.0',
+		'version' => '4.2.0',
 	],
 	'bootstrap' => \ElggxUserpointsBootstrap::class,
 	'entities' => [
@@ -15,7 +15,11 @@ return [
 			'type' => 'object',
 			'subtype' => 'userpoint',
 			'class' => 'Userpoint',
-			'searchable' => false,
+			'capabilities' => [
+				'commentable' => false,
+				'searchable' => false,
+				'likable' => false,
+			],
 		],
 	],
 	'actions' => [

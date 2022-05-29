@@ -96,7 +96,7 @@ function elggx_userpoints_add($user_guid, $points, $description, $type = null, $
 	if (elgg_get_plugin_setting('displaymessage', 'elggx_userpoints') && $type != 'admin' && $user_guid == elgg_get_logged_in_user_guid()) {
 		$branding = ($points == 1) ? elgg_echo('elggx_userpoints:lowersingular') : elgg_echo('elggx_userpoints:lowerplural');
 		$message = elgg_get_plugin_setting('moderate', 'elggx_userpoints') ? 'elggx_userpoints:pending_message' : 'elggx_userpoints:awarded_message';
-		system_message(elgg_echo($message, [$points, $branding]));
+		elgg_register_success_message(elgg_echo($message, [$points, $branding]));
 	}
 
 	return $userpoint;
@@ -503,6 +503,8 @@ function elggx_userpoints_invite_status($guid = null, $email) {
 				$status[] = $entity->guid;
 			}
 		}
+
+		return $status;
 	});
 
 	if (empty($status)) {

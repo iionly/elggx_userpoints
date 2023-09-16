@@ -34,7 +34,7 @@ class ElggxUserpointsBootstrap extends DefaultPluginBootstrap {
 
 	public function activate() {
 		$current_version = elgg_get_plugin_setting('version', 'elggx_userpoints');
-		$new_version = '4.2.0';
+		$new_version = '4.3.0';
 
 		if (version_compare($current_version, $new_version, '!=')) {
 			// Set new version

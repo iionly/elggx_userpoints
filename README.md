@@ -1,8 +1,8 @@
-Elggx Userpoints plugin for Elgg 4.2 and newer Elgg 4.X
+Elggx Userpoints plugin for Elgg 4.3 and newer Elgg 4.X
 =======================================================
 
-Latest Version: 4.2.0  
-Released: 2022-05-29  
+Latest Version: 4.3.0  
+Released: 2023-09-16  
 Contact: iionly@gmx.de  
 License: GNU General Public License version 2  
 Copyright: (c) iionly (for Elgg 1.8 and newer), Billy Gunn

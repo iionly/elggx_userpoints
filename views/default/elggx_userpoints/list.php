@@ -8,10 +8,11 @@ $options = [
 	'count' => true,
 	'offset' => $offset,
 	'limit' => $limit,
-	'order_by_metadata' => [
-		'name' => 'userpoints_points',
+	'sort_by' => [
+		'property' => 'userpoints_points',
 		'direction' => 'DESC',
-		'as' => 'integer',
+		'signed' => true,
+		'property_type' => 'metadata',
 	],
 	'metadata_name_value_pairs' => [
 		'name' => 'userpoints_points',

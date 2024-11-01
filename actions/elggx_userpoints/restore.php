@@ -13,8 +13,8 @@ elgg_delete_metadata([
 	'limit' => false,
 ]);
 
-$users_points = elggx_userpoints_get($user->guid);
+$users_points = \ElggxUserpointsFunctions::elggx_userpoints_get($user->guid);
 $users_approved_points = $users_points['approved'];
 $user->userpoints_points = (int) $users_approved_points;
 
-return elgg_ok_response('', elgg_echo('elggx_userpoints:restore:success', [$username]), REFERER);
+return elgg_ok_response('', elgg_echo('elggx_userpoints:restore:success', [$username]), REFERRER);

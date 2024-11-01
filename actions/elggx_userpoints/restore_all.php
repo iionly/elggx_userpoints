@@ -15,9 +15,9 @@ foreach ($all_users as $user) {
 		'limit' => false,
 	]);
 
-	$users_points = elggx_userpoints_get($user->guid);
+	$users_points = \ElggxUserpointsFunctions::elggx_userpoints_get($user->guid);
 	$users_approved_points = $users_points['approved'];
 	$user->userpoints_points = (int) $users_approved_points;
 }
 
-return elgg_ok_response('', elgg_echo('elggx_userpoints:restore_all:success'), REFERER);
+return elgg_ok_response('', elgg_echo('elggx_userpoints:restore_all:success'), REFERRER);

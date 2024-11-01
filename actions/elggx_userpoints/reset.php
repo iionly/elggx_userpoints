@@ -47,4 +47,4 @@ if ($user_guid > 0) {
 	]);
 }
 
-return elgg_ok_response('', elgg_echo('elggx_userpoints:reset:success', [elgg_echo('elggx_userpoints:lowerplural')]), REFERER);
+return elgg_ok_response('', elgg_echo('elggx_userpoints:reset:success', [elgg_echo('elggx_userpoints:lowerplural')]), REFERRER);

@@ -41,7 +41,7 @@ class Userpoint extends ElggObject {
 	 * {@inheritDoc}
 	 * @see ElggEntity::canDelete()
 	 */
-	public function canDelete($user_guid = 0) {
+	public function canDelete(int $user_guid = 0): bool {
 
 		$user_guid = (int) $user_guid;
 		if (empty($user_guid)) {

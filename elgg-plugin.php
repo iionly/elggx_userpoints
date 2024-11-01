@@ -1,13 +1,9 @@
 <?php
 
-require_once(dirname(__FILE__) . '/lib/userpoint.php');
-require_once(dirname(__FILE__) . '/lib/events.php');
-require_once(dirname(__FILE__) . '/lib/hooks.php');
-
 return [
 	'plugin' => [
 		'name' => 'Elggx Userpoints',
-		'version' => '4.3.0',
+		'version' => '5.0.0',
 	],
 	'bootstrap' => \ElggxUserpointsBootstrap::class,
 	'entities' => [
@@ -44,6 +40,82 @@ return [
 		'subtract' => '0',
 		'delete' => '0',
 		'expire_after' => '0',
+	],
+	'events' => [
+		'register' => [
+			'menu:entity' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_entity_menu" => [],
+			],
+			'menu:filter:members' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_members_nav" => [],
+			],
+		],
+		'expirationdate:expire_entity' => [
+			'all' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_expire" => [],
+			],
+		],
+		'action' => [
+			'invitefriends/invite' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_invite" => [],
+			],
+		],
+		'action:validate' => [
+			'register' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_register" => [],
+			],
+		],
+		'enable' => [
+			'user' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_validate" => [],
+			],
+		],
+		'login:after' => [
+			'user' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_login" => [],
+			],
+		],
+		'create' => [
+			'object' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_object" => [],
+			],
+			'annotation' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_annotate" => [],
+			],
+			'relationship' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_relationship" => [],
+			],
+			'group' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_group" => [],
+			],
+		],
+		'delete' => [
+			'object' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_object" => [],
+			],
+			'entity' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_object" => [],
+			],
+			'annotation' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_annotate" => [],
+			],
+			'relationship' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_relationship" => [],
+			],
+			'group' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_group" => [],
+			],
+		],
+		'profileupdate' => [
+			'user' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_profile" => [],
+			],
+		],
+		'profileiconupdate' => [
+			'user' => [
+				"\ElggxUserpointsEvents::elggx_userpoints_profileiconupdate" => [],
+			],
+		],
 	],
 	'widgets' => [
 		'toppoints' => [

@@ -8,6 +8,6 @@ if (!($entity instanceof Userpoint)) {
 	return elgg_error_response(elgg_echo('elggx_userpoints:approved_error'));
 }
 
-elggx_userpoints_moderate($guid, $status);
+\ElggxUserpointsFunctions::elggx_userpoints_moderate($guid, $status);
 
-return elgg_ok_response('', elgg_echo("elggx_userpoints:{$status}_message", [elgg_echo('elggx_userpoints:lowerplural')]), REFERER);
+return elgg_ok_response('', elgg_echo("elggx_userpoints:{$status}_message", [elgg_echo('elggx_userpoints:lowerplural')]), REFERRER);

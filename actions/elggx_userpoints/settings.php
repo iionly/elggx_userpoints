@@ -19,4 +19,4 @@ foreach ($params as $k => $v) {
 	}
 }
 
-return elgg_ok_response('', elgg_echo('elggx_userpoints:settings:save:ok'), REFERER);
+return elgg_ok_response('', elgg_echo('elggx_userpoints:settings:save:ok'), REFERRER);
